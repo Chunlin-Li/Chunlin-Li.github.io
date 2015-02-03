@@ -1,6 +1,6 @@
 @font-face{
   font-family: "FZLTHJ";
-  src: "../fonts/FZLTHJ.TTF" format("truetype");
+  src: url(../fonts/FZLTHJ.TTF) format("truetype");
 }
 
 body {
