@@ -1,8 +1,3 @@
-@font-face{
-  font-family: "FZLTHJ";
-  src: url("../fonts/FZLTHJ.TTF") format("truetype");
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -10,7 +5,7 @@ body {
   color: #eaeaea;
   font: 16px;
   line-height: 1.5;
-  font-family: FZLTHJ, Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
 
 /* General & 'Reset' Stuff */
@@ -63,7 +58,7 @@ header h1 {
 }
 
 header h1:before {
-  /*content: "";*/
+  content: "./ ";
   font-size: 24px;
 }
 
