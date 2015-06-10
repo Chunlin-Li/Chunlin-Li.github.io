@@ -72,8 +72,39 @@ return;
 * 当发现有一些依赖的模块更新了版本时, 可能我们希望将这些依赖也升级到最新.  我们可以手动编辑 package.json 来修改依赖模块的版本,  我们也还有另外一个选择:  使用  `npm upgrade` 命令一次性全部升级.
 * 如果某个曾经依赖的模块我们现在不再依赖, 可以使用  `npm rm` 或 `npm uninstall` 命令将它从我们的模块中删除.  当然, 聪明人还是会使用  `--save` 参数让这个删除操作同时改变我们的 package.json 文件.
 
-----------------------
+
 
 以上部分参考 how-to-npm 教程. 
+
+----------------------
+
+
+
+npm 常用命令补充 : 
+
+#### 安装依赖包
+
+`npm install [packageName]` 将包安装到当前路径下的 node_modules 目录中. 用于在当前的项目中使用该依赖包.
+
+`npm install [packageName] -g` 是全局安装模式.  对于命令行工具类型的包, 使用该方法安装, 会将该包的入口模块注册到 shell 环境中 ( 实际上是放在了NODE_HOME 的 node_module目录下, 并在 bin 目录中建立软链接 ), 
+
+通过以下方式可以实现离线安装.  tar包 或者  folder 中需要包含有 package.json 文件
+```
+npm install [tar file] 
+npm install [tar url]
+npm install [folder]
+```
+
+修改安装源:
+
+一次性的方式: `npm install [packageName] --registry=http://example.url`
+
+修改 npm 的配置: `npm config set registry http://example.url`
+
+列出所有npm的配置项: `npm config ls -l`
+
+npm 用户配置文件位置:  `~/.npmrc` . 直接将需要覆盖的配置项写在其中即可
+
+
 
 > Written with [StackEdit](https://stackedit.io/).
