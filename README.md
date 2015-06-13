@@ -12,6 +12,3 @@
 [Ubuntu 14.04 下通过 XKB 修改键盘映射, 实现自定义按键](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/ubuntu-xkb-keyboard-remap.md)
 
 [MongoDB The Definitive Guide 学习笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/mongodb-definitive-guide-notes.md)
-
-test new  
-line
