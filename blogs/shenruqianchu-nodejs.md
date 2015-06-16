@@ -512,6 +512,118 @@ setImmediate() 的回调保存在链表上. 每次循环只取出链表上的一
 
 # 4 异步编程
 
+## 4.1 函数式编程
+
+在 javascript 中,  函数是一等公民,  于此有关的文章很多. 
+
+### 4.1.1 高阶函数
+
+高阶函数 : 简单说就是参数和返回值也都可以是函数.    
+该方式将函数的业务重点从返回值转移到了回调函数中.
+
+典型高阶函数 sort() 方法 : 
+```
+var points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b) {
+	return a - b;
+});
+// [ 1, 5, 10, 25, 40, 100 ]
+```
+其排序行为由作为参数的排序函数决定.  但该函数只需要描述排序逻辑,  而无需关心其他和排序逻辑无关的通用排序操作. 
+
+> Java 中的 Comparator 与其类似.
+
+通过高阶函数,  可以给事件注册不同的回调函数,  以此可以对复杂业务进行逻辑解耦.
+
+### 4.1.2 偏函数的用法
+
+偏函数:  在一个函数中调用另外一个函数,  而这个被调用的函数, 其参数和变量是经过特定设置的.
+
+用法之一是抽离多个函数中所需的相同的部分, 例: 
+```javascript
+// 原始写法 
+// 用于定义类型判断的方法
+var toString = Object.prototype.toString;
+var isString = function(obj) {
+	return toString.call(obj) == '[object String]';
+};
+var isFunction = function(obj) {
+	return toString.call(obj) == '[object Function]';
+};
+```
+
+两个方法几乎是重复的. 我们可以将其中重复部分抽离出来, 其中不同的部分可以用传入的参数来定义.
+```javascript
+var isType = function(type) {
+	return function(obj) {
+		return toString.call(obj) == '[object ' + type + ']';
+	};
+};
+var isString = isType('String');
+var isFunction = isTyep('Function');
+// 还可以很方便的定义其他类似函数 ... ... 
+```
+
+## 4.2 异步编程的优势与难点
+
+需要防止任意一个任务计算耗费过多的CPU时间片. 通常建议每次 CPU 的耗用不要超过 10ms, 或者将打计算量的任务分解为诸多小量计算, 通过 setImmediate() 进行调度. 
+
+### 4.2.2 **难点**
+
+#### 4.2.2.1 异常处理: 
+传统方式的 `try { ... } catch( e ) { ... }` 的方式对于异步编程会有不适用的情况.    
+原因: 异步任务启动过程只是将任务挂在对应的事件队列上, 该异步任务将在下一个 Tick 上执行, 而 try/catch 方法只能捕获本次事件循环内的异常, 对 callback 中的异常无能为力.
+
+Node 编码在异常处理上形成了一种**_约定: 将异常作为回调函数的第一个实参传回, 如果是空值, 表明没有异常_**. 例:
+```
+var callback = function (err, results) { ... };
+```
+
+编码原则:    
+1. 必须执行调用这传入的回调函数;
+2. 回调中正确处理并传递异常信息供调用者判断.
+示例代码: 
+```
+var async = function (callback) {
+	process.nextTick(function() {
+		var results = SOMETHING;
+		if (error) {
+			return callback(error);
+		}
+		callback(null, results)
+	});
+}
+```
+
+一个容易犯的错误: 对用户传递的回调函数进行异常捕获.
+```
+try {
+	req.body = JSON.parse(buf, options.reviver);
+	callback(); // 此处的异常将导致 callback 执行两次.
+} catch (err) {
+	err.body = buf;
+	err.status = 400;
+	callback(err);
+}
+```
+正确的方式应该是 **将用户传入的回调放在 try 之外, catch 只用来给回调传递异常信息, 不需要关心用户传入的回调在当前函数中的执行策略 **
+```
+try {
+	req.body = JSON.parse(buf, options.reviver);
+} catch (err) {
+	err.body = buf;
+	err.status = 400;
+	return callback(err);
+}
+callback(null);
+```
+编写异步函数式, 只需将异常正确的传递给用户的回调即可, 无需过多处理.
+
+#### 4.2.2.2 函数嵌套过深
+
+
+#### 4.2.2.3 阻塞代码
+
 
 
 
