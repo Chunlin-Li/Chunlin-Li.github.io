@@ -606,9 +606,7 @@ try {
 	callback(err);
 }
 ```
-
-正确的方式应该是**_将用户传入的回调放在 try 之外, catch 只用来给回调传递异常信息, 不需要关心用户传入的回调在当前函数中的执行策略_**
-
+正确的方式应该是 **将用户传入的回调放在 try 之外, catch 只用来给回调传递异常信息, 不需要关心用户传入的回调在当前函数中的执行策略 **
 ```
 try {
 	req.body = JSON.parse(buf, options.reviver);
@@ -623,8 +621,58 @@ callback(null);
 
 #### 4.2.2.2 函数嵌套过深
 
+这个问题是 Node 被诟病最多的地方. 
 
 #### 4.2.2.3 阻塞代码
+
+Node 中没有其他语言中的  sleep() 函数用于延迟. 对于该问题的错误解决方式: 
+```
+var start = new Date();
+while (new Date() - start < 1000) {
+	// TODO
+}
+```
+这样通过持续占有CPU线程的方式, 破坏了 Node 的事件循环调度.   
+首选应该是尽量通过合理调度任务, 避免使线程空等.   
+其次, 如果一定需要使用, 考虑用 setTimeout() 或 setInterval() 来实现.
+
+#### 4.2.2.4 多线程编程
+
+Node 借鉴浏览器的 Web Workder 新标准, 提供了基于 `child_process` 和 `cluster` 的基础 API.    
+
+在此基础上, 开发人员需要去考虑更多的跨线程 (进程) 的编程.
+
+#### 4.2.2.5 异步转同步
+
+Node 中没有原生的同步 API, 如果需要异步转同步, 需要借助第三方的库, 或者是编译手段来实现.   
+另, 通过良好的流程控制, 可以将同步逻辑用异步模拟实现. 
+
+
+## 4.3 异步编程解决方案
+
+### 4.3.1 事件发布/订阅模式
+
+这是一种被广泛应用的异步编程模式, 是回调函数的事件化, 又被称为 (事件监听器模式)
+
+Node 自身提供了 events 模块, 包含发布/订阅的简单实现.    
+其中没有前端浏览器中的  preventDefault(), stopPropagation() 和 stopImmediatePropagation() 等控制事件传递的方法. 
+```javascript
+// sub
+emitter.on("event1", function (message) {
+	console.log(message);
+});
+// pub
+emitter.emit('event1', "I am message!");
+```
+订阅者的回调函数被称为*事件监听器*.    
+可以利用发布订阅模式, 对不变的部分封装在组件内, 易变部分通过事件向组件外暴露接口. 以此实现解耦
+
+发布订阅模式的关键在与事件的设计, 此处的事件设计就相当于是接口的设计.
+
+
+### 4.3.2 Promise / Deferred 模式
+
+### 4.3.3 流程控制库
 
 
 
