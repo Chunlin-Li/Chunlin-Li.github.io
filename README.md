@@ -13,4 +13,4 @@
 
 [MongoDB The Definitive Guide 学习笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/mongodb-definitive-guide-notes.md)
 
-[**_深入浅出 Node.js  -- 朴灵_** 读书笔记 ](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/shenruqianchu-nodejs.md)
+[**_深入浅出 Node.js  -- 朴灵_** 读书笔记(未完) ](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/shenruqianchu-nodejs.md)
