@@ -329,7 +329,7 @@ npm 相关 --> [npm 简易教程](https://github.com/Chunlin-Li/Chunlin-Li.githu
 为保持前后端的一致性, 需要将类库代码包装载一个闭包内. 以兼容 Node, AMD, CMD 及常见浏览器环境.
 
 示例 hello world 模块代码如下: 
-```
+```js
 ;(function() {
     // 检查上下文环境是否为 AMD或CMD
     var hasDefine = typeof define === 'function',
@@ -574,7 +574,7 @@ var isFunction = isTyep('Function');
 原因: 异步任务启动过程只是将任务挂在对应的事件队列上, 该异步任务将在下一个 Tick 上执行, 而 try/catch 方法只能捕获本次事件循环内的异常, 对 callback 中的异常无能为力.
 
 Node 编码在异常处理上形成了一种**_约定: 将异常作为回调函数的第一个实参传回, 如果是空值, 表明没有异常_**. 例:
-```
+```javascript
 var callback = function (err, results) { ... };
 ```
 
@@ -582,7 +582,7 @@ var callback = function (err, results) { ... };
 1. 必须执行调用这传入的回调函数;
 2. 回调中正确处理并传递异常信息供调用者判断.
 示例代码: 
-```
+```javascript
 var async = function (callback) {
 	process.nextTick(function() {
 		var results = SOMETHING;
@@ -595,7 +595,7 @@ var async = function (callback) {
 ```
 
 一个容易犯的错误: 对用户传递的回调函数进行异常捕获.
-```
+```javascript
 try {
 	req.body = JSON.parse(buf, options.reviver);
 	callback(); // 此处的异常将导致 callback 执行两次.
@@ -606,7 +606,7 @@ try {
 }
 ```
 正确的方式应该是 **将用户传入的回调放在 try 之外, catch 只用来给回调传递异常信息, 不需要关心用户传入的回调在当前函数中的执行策略 **
-```
+```javascript
 try {
 	req.body = JSON.parse(buf, options.reviver);
 } catch (err) {
