@@ -1,5 +1,4 @@
-
-
+[TOC]
 
 # 1 Node 简介
 
@@ -667,7 +666,89 @@ emitter.emit('event1', "I am message!");
 订阅者的回调函数被称为*事件监听器*.    
 可以利用发布订阅模式, 对不变的部分封装在组件内, 易变部分通过事件向组件外暴露接口. 以此实现解耦
 
-发布订阅模式的关键在与事件的设计, 此处的事件设计就相当于是接口的设计.
+发布订阅模式的关键在与事件的设计, 此处的事件设计就相当于是接口的设计. 
+
+从另一个角度看, 这也是一种钩子机制的运用.  模块只管自己执行就好, 仅在必要的节点上留出个事件钩子给外部捕获当前的执行状态和数据
+
+```
+var option = {
+	host: 'www.google.com',
+	port: 80,
+	path: '/upload',
+	method: 'POST'
+};
+
+var req = http.request(option, function(res) {
+	console.log('STATUS: ' + res.statusCode);
+	console.log('HEADERS: ' + JSON.stringify(res.headers));
+	res.setEncoding('utf8');
+	res.on('data', function(chunk) {
+		console.log('BODY: ' + chunk);
+	});
+	res.on('end', function() {
+		// TODO
+	});
+});
+req.on('error', function(e) {
+	console.log('problem with request: ' + e.message);
+});
+// write date to request body
+req.write('data\n');
+req.write('data\n');
+req.end();
+```
+
+Node 对事件的发布订阅机制做了一些额外处理, 大多基于健壮型考虑:   
+
+* 一个事件如果添加了 10 个以上的监听器, 会收到一条警告   
+	目的:  1. 防止可能存在的内存泄漏问题 ;   2. 一个事件的监听器过多, 则该事件可能会过多占用 CPU .
+	调用 `emitter.setMaxListeners(0);` 可以将该限制去掉
+* 为处理异常, EventEmitter 对象对 error 事件进行了特殊处理.    
+	如果运行期间错误触发了 error 事件, EventEmitter 会检查是否给该事件添加了监听器. 如果添加了, 错误会直接交给监听器进行处理, 否则将会将该错误作为异常抛出.  此时如果外部没有捕获该异常, 将会导致线程退出.    
+	一个健壮的 EventEmitter 应该对 error 事件做处理.
+
+#### 4.3.1.1 继承 events 模块
+
+Stream 对象继承 EventEmitter 的例子:
+```
+var events = require('events');
+
+function Stream () {
+	evnets.EventEmitter.call(this);
+}
+// Node 在 util 模块中封装了继承的方法, 方便调用
+util.inherits(Stream, events.EventEmitter);
+```
+开发者可以利用这样的方式继承 EventsEmitter 类, 利用事件机制解决业务问题.   
+Node 提供的核心模块中, 近半都继承自 EventEmitter.
+
+#### 4.3.1.2 利用事件队列解决雪崩问题
+
+订阅发布模式中有 `once()` 方法, 通过该方法添加的监听器只能被执行一次, 之后将从该事件上移除. 可以用于过滤重复性的事件响应, 以解决雪崩问题.
+
+雪崩问题的一个典型场景 : 高访问量, 大并发下, 缓存失效的情景. 在 Node 中利用按事件排队的方式解决
+```
+var proxy = new events.EventEmitter();
+// 状态锁
+var status = "reday";
+var select = function (callback) {
+	proxy.once("selected", callback);
+	if (status === "ready") {
+		status = "pending";
+		db.select("SQL", function(results) {
+			proxy.emit("selected", results);
+			status = "ready";
+		});
+	}
+};
+```
+此处, 利用 `once()` 方法将所有请求的回调都压入事件队列中, 利用其只执行一次的特点, 保证每个任务仅被执行一次.  在一次查询结束之前新进来的查询请求, 都直接在该事件上监听, 当查询结束后, 结果将返回给所有在监听该查询事件的回调中. 相当于一次查询多次使用. 
+
+`once()` 方法产生的效果也可以在著名的 Gearman 异步应用框架中实现. 但在 javascript 中, 实现该效果易如反掌.
+
+#### 4.3.1.3 多异步之间的协作方案
+
+一般情况下, 事件与监听器是一对多的关系, 但在异步编中, 也会出现多对一的情况:  
 
 
 ### 4.3.2 Promise / Deferred 模式
