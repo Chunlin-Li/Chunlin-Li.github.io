@@ -16,3 +16,5 @@
 [**_深入浅出 Node.js  -- 朴灵_** 读书笔记(未完) ](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/shenruqianchu-nodejs.md)
 
 [Elevator Saga 电梯解决方案](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/elevator-saga.md)
+
+[NOSQL DATA MODELING TECHNIQUES](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/nosql-data-modeling-techniques-translate.md)
