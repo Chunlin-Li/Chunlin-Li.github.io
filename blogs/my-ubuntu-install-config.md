@@ -1,96 +1,127 @@
+我的 Ubuntu 安装配置笔记
+================
 
-安装 Ubuntu 14.04.2 LTS 64bit
+## 安装 系统 Ubuntu 14.04.2 LTS 64bit
 
 下载镜像后, 将镜像写入到 U 盘中, 用U盘安装.
-Windows 下可以下载使用 Win Disk Imager 工具来制作启动盘. 不要再使用UltraISO 了, 会有问题的.
-Ubuntu 下直接使用 StartUp Disk Creator 工具完成镜像写入即可. 
+> Windows 下可以下载使用 Win Disk Imager 工具来制作启动盘. 貌似 14.10 以上的版本不能使用UltraISO 制作启动盘了, 开机引导的时候会有问题的.
+> Ubuntu 下直接使用 StartUp Disk Creator 工具完成镜像写入即可. 
 
 安装时, 如果为了快一点, 可以跳过连接 WIFI 的那一步, 可以节省一些下载额外语言和包的时间. 这些可以安装完以后再手动安装. 
 
-完成安装后, 需要安装显卡驱动.  我自己的笔记本是 Nvidia 850M, 如果不安装显卡驱动, 结果就是掌托部分可以煎蛋....
+如果安装的时候没有链接网络进行更新,  安装完成后, 最好先更新一下系统. 
+System Settings  --> Details --> Overview --> Install Updates
+
+## 完成安装后, 需要安装显卡驱动
+
+我自己的笔记本是 Nvidia GTX 850M, 如果不安装显卡驱动, 结果就是掌托部分可以煎蛋....
+
 安装驱动不使用官网下载的 xxxxx.run 格式的驱动, 直接使用 apt-get 搞定即可, 非常方便. 
-```
+```bash
 sudo apt-get install nvidia-331 nvidia-settings nvidia-prime
 ```
 
-重启后安装完成, 在 Launcher 中可以找到 nvidia 配置程序, 左边有一项 PRIME xxxx  进去直接切到 Intel 集显. 重启后一切OK.
+重启后安装完成, 在 Launcher 中可以找到 nvidia 配置程序, 左边有一项 PRIME xxxx  进去直接切到 Intel 集显. 重启后一切OK. (我自己的目的是要关掉集显)
+
+## 修改硬盘转速
 
 右手掌托依然很烫, 是硬盘的位置. 我自己配了 WD 的 7500转黑盘, 目前来看是个失误, 实在太烫.
-编辑 `/etc/hdparm.conf` 文件, 在最下面加入以下几行: 
+编辑 `/etc/hdparm.conf` 文件, 在最下面加入以下几行:   
 ```
+# /dev/sda 这里要换成你自己的硬盘设备文件
 /dev/sda {
 	apm = 128
 	apm_battery = 128
 }
 ```
-将硬盘转速降低. 128貌似是硬盘不停转情况下的最低值了.  不过要注意 Load/Unload Cycle count 快速增长的问题. 如果因为这个原因导致 Load/Unload Cycle count 增长过快的问题， 可以将设置的值调高到 192
+将硬盘转速降低. 128貌似是硬盘不停转情况下的最低值了.  不过要注意 Load/Unload Cycle count 快速增长的问题. 反正我的黑盘没有出现这个问题. 如果有问题, 建议设置为 192.
 
-接下来改输入法. 
-默认 iBus 的拼音输入法. 拼音做的中规中矩, 词库有限, 词频不合适. 另外 iBus 还有很多 Bug. 比如和火狐浏览器, 比如和 idea, 比如和 sublime 等等....
-<s>改用基于 fcitx 的 搜狗拼音输入发一次解决多个问题.</s>
+## 中文输入法.
 
-> ps: 用了一段时间搜狗， 感觉非常失望， 拼音的联想功能只能说是脑洞大开。 最后只能祭出神器： 中州韵 RIME 输入法
+默认 iBus 的拼音输入法. 拼音做的中规中矩, 词库有限, 词频不合适. 
 
-ubuntu 下 fcitx rime 的安装与配置待续... ...
+但主要问题是 iBus 还有很多 Bug. 比如和火狐浏览器, 比如和 idea, 比如和 sublime 等等....
 
+<s>改用基于 fcitx 的搜狗拼音输入法可以解决这多个问题. </s>
 
-不建议高级用户使用搜狗输入法， 以下安装方法仍保留， 确有需要的朋友可以参考下。
+> 对于开发者, 不推荐使用搜狗拼音输入法, 可以尝试一下 Rime 输入法, 
+> 开始的时候我也用搜狗, 后来被坑的不行, 换用 Rime 了, 然后感慨为什么当初不直接用 Rime ....
+> 以下搜狗拼音输入法的安装方法仍保留,  [fcitx Rime 输入法的安装及简单的配置请走这边.](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/ubuntu-fcitx-rime.md)
 
-> 直接搜狗官网下载最新的 deb 包. 
-> 双击后会自动调出 ubuntu software center 进行安装. 如果提示 fcitx 版本低, 可以先执行 
-> `sudo apt-get update` 更新一下. 
-> 安装完成后, 在终端输入 `im-config` , 一路回车进去, 选 fcitx 再一路回车出来. 
-> 重启.
-> 打开终端, 执行 `fcitx-config-gtk3` , 添加, 去掉only xxx 前面的对勾, 然后搜出 Sogou , 完成添加.
-> 完成安装.
+* 直接搜狗官网下载最新的 deb 包. 
+* 双击后会自动调出 ubuntu software center 进行安装. 如果提示 fcitx 版本低, 可以先执行 
+`sudo apt-get update` 更新一下. 
+* 安装完成后, 在终端输入 `im-config` , 一路回车进去, 选 fcitx 再一路回车出来. 
+重启.
+* 打开终端, 执行 `fcitx-config-gtk3` *
+* 在首个tab的列表下点击添加, 去掉only xxx前面的对勾, 然后搜出 Sogou Pinyin, 完成添加.
+* 完成安装.
 
-> 装完输入法, 不知道什么原因, 会导致系统 settting 下对于 键盘和鼠标的一些选项无法生效. 其中我比较常用的就是设置键盘按键的重复率和重复延迟时间, 以及鼠标移动速度和灵敏度. 
-> 键盘设置 : `xset r rate 250 70` . 250是延迟时间 250ms, 70 是重复速率
-> 鼠标设置: `xset m 10 3`.  10是加速度, 3是加速阈值.
-> 可以将以上两行加到开机启动脚本
-> * 有一次遇到过按完输入法后, 使用 `Ctrl + Space` 切换不了输入法的问题, 没有找到解决方案. 如果有知道的同学可以告诉我. 
+装完 fcitx 后, 不知道什么原因, 会导致系统 settting 下对于 键盘和鼠标的一些选项无法生效. 其中我比较常用的就是设置键盘按键的重复率和重复延迟时间, 以及鼠标移动速度和灵敏度. 
 
-字体
-使用 atom 和 idea 的时候会发现, 已经将字符集设置为 UTF-8 , 但还是不能正常显示中文. 输入中文都显示成一个方块. 
-搜了一下发现, 问题在于中文字体.  使用"文泉驿"的字体可以解决这个问题. 
-安装文泉驿微米黑字体:
+* 键盘设置 : `xset r rate 250 70` . 250是延迟时间 250ms, 70 是重复速率
+* 鼠标设置: `xset m 10 3`.  10是加速度, 3是加速阈值.
+
+可以将以上两行加到开机启动脚本 ( 如 /etc/rc.local ) 中.   也可以用 StartUp Application: 
+
+* 在系统的 Launcher 中能找到 StartUp Applications, 
+* 可以在自己的 home 目录下, 添加一个 startup.sh 脚本, 并将其添加到上述程序的启动列表中, 其实和 windows 下开始菜单中的'启动'目录类似.
+
+> 有一次遇到过安完输入法后, 使用 `Ctrl + Space` 切换不了输入法的问题, 检查了所有可能的快捷键设置项, 没有找到解决方案. 如果有知道的同学可以告诉我.  
+
+## 字体
+使用 atom 和 idea 的时候会发现, 已经将字符集设置为 UTF-8 , 但还是不能正常显示中文. 输入中文都显示成一个方块. 搜了一下发现, 问题出在中文字体上面.  
+
+使用"文泉驿"的字体可以解决这个问题. 安装文泉驿微米黑字体:
 `sudo apt-get install ttf-wqy-microhei`
+ 
 安装完成后, 在对应的程序中将字体改成  WenQuanYi Micro Hei 即可. 
-Atom 可以将字体设置为 : `DejaVu Sans Mono,WenQuanYi Micro Hei`
-idea 可以在 settings --> apperance 中打开 Override 并将字体设置成文泉驿
+> Atom 可以将字体设置为 : `DejaVu Sans Mono,WenQuanYi Micro Hei`
+> idea 可以在 settings --> apperance 中打开 Override 并将字体设置成文泉驿
+> chrome 在 setting 的 advance 选项中可以自定义字体, 全部换成文泉驿
 
 
+## 更改系统的按键映射. 
 
-更改系统的按键映射. 
-背景  需求:  为了提高效率, 将 上下左右, End, Home, PageUp, PageDown, BackSpace, Delete这些非常常用的按键, 映射到键盘主键区, 否则来回移动右手效率会非常差, 而且容易 Fat Finger.... 
+为了提高效率, 将 上下左右, End, Home, PageUp, PageDown, BackSpace, Delete这些非常常用的按键, 映射到键盘主键区, 否则来回移动右手效率会非常低. 如果再配备一个 60% 的机械键盘, 加以训练和适应, 将会大大提高操作效率, 而且非常有逼格.
 
-Windows 下可以使用 AutoHotKey 这个软件编译一个按键映射脚本来轻松搞定.
-
+曾经在 Windows 下可以使用 AutoHotKey 这个软件写一个按键映射脚本来轻松搞定全局映射的修改.
 换用Ubuntu后, 一直没有找到合适的方案.  
-
 系统下的键盘设置根本不支持这种需求; 使用 sublime Eclipse Idea 等工具时, 设置按键的映射, 这种方式只能影响一个软件自身环境下的按键, 而很多时候我所需要的是系统全局的. 因为这种便捷的操作很快会成为习惯. AutoKey 这个工具可以实现这个功能, 但是性能实在太差了, 有时候还会崩溃....
 
-终极解决方案: 修改 xbk 
+终极解决方案: 修改 xbk 配置!
 
-/usr/share/X11/xkb/symbols/pc  中
-找到  `Key <CAPS>` 的设置项,  把 symbols 改为 ` [ Mode_switch ] `  把 大写锁定改为模式切换
+使用命令查看当前的键盘方案 : `setxkbmap -print` 
+我这里显示的是:
+```js
+xkb_keymap {
+	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+	xkb_types     { include "complete"	};
+	xkb_compat    { include "complete"	};
+	xkb_symbols   { include "pc+us+inet(evdev)"	};
+	xkb_geometry  { include "pc(pc105)"	};
+};
+```
+留意 xkb_symbols 这行, 其中显示是  pc + us. 说明我们需要修改的就是这两个 symbols 文件
+配置文件的位置 :  `/usr/share/X11/xkb/symbols/`  
+
+在 pc 中找到  `Key <CAPS>` 的设置项,  把 symbols 改为 ` [ Mode_switch ] `  把 大写锁定改为模式切换
 
 找到 `Key <RCTL>`, 把 symbols 改为 `[Caps_Lock]` 
 找到`modifier_map Control` 项, 将其中的 `Control_R` 删掉
 右 Control 不怎么用, 因此用此方式改为大写锁定.
 
-至此, 所有 `CAPS + Any` 会被映射到 Group2 符号组. (模式切换键也可以按照同样的思路改为其他按键, 只要自己觉得习惯, 并且和现有的其他组合键尽量避免冲突即可)
+至此, 所有 `CAPS + Any` 会被映射到 Group1 符号组. (模式切换键也可以按照同样的思路改为其他按键, 只要自己觉得习惯, 并且和现有的其他组合键尽量避免冲突即可)
 
-下来需要将我们需要的功能绑定到对应的按键上了, 
-
-/usr/share/X11/xkb/symbols/us 中, 在 basic 定义模块中, 找到 `i` , 对应的是 `Key <AD08>` .
+下来需要将我们需要的功能绑定到对应的按键上了,  需要编辑 us 文件.
+在 `xkb_symbols "basic" ` 定义模块中, 找到 `i` , 对应的是 `Key <AD08>` .
 默认的 symbols 是 : `{  [   i,    I    ]   };` 这个是 Group1 中的 Level1 和 Level2.
 我们现在需要给他加上 Group2, 并且该 Group2 中只有一个 Level.
 `{ [ i, I ] , [ Up ] }` 这样, 我们就将 "i" 键的 Group2 定义为 方向键 上.
 同样的道理, 找到别的键, 并设置好自己想要的映射.
 我自己使用的映射是:
 ```
-// 默认都是按住 Mod_switch 键的
+// 默认都是按住 Mod_Switch 键的
 i --> Up
 j --> Left
 k --> Down
@@ -108,18 +139,17 @@ f --> Delete
 然后进入以下路径 : `/var/lib/xkb` , 将该路经下 所有的 .xkm 文件都删除.
 然后 logout, 再重新登录到系统. 此时按键修改完成.
 
-**警告** ： 该方法有风险， 如果配置文件有配置错的地方， 会导致键盘彻底用不了。 出现这种情况时， 我自己的方法是， 用事先准备好的 ubuntu 系统U盘启动， 然后重新检查并修改配置文件， 重复上述操作后， 重新启动进入系统， 如果修改成功， 键盘更能将回复， 否则重新用U盘启动进行修改， 实在不行， 用之前备份的原始配置文件进行替换。
-
 参考资料 : 
-http://madduck.net/docs/extending-xkb/
-http://www.charvolant.org/~doug/xkb/
-http://pascal.tsu.ru/en/xkb/
+
+* [http://madduck.net/docs/extending-xkb/](http://madduck.net/docs/extending-xkb/)
+* [http://www.charvolant.org/~doug/xkb/](http://www.charvolant.org/~doug/xkb/)
+* [http://pascal.tsu.ru/en/xkb/](http://pascal.tsu.ru/en/xkb/)
 
 
 
 ------------------------------------------------------
 
-配置科学上网 :
+### 配置科学上网 :
 我自己习惯使用 shadowsocks, 因为手里刚好有比较好用的  shadowsocks 账号. 
 首先需要有 python 环境, 安装 pip.  ubuntu 默认有 python 环境. 所以直接执行 :
 `sudo apt-get install python-pip`
@@ -156,7 +186,44 @@ rule list Configure 选择 auto proxy , 然后在 rule list url 栏中复制粘�
 
 
 
+### ssh 远程访问服务器
 
+没配置什么 ssh 的客户端. 还是最习惯使用 ssh 命令来链接远端服务器. 
+
+原始方式: `ssh usernameOnServer@your.server.host.ip` , 然后输入密码
+
+将本机的 key 添加到服务器, 避免每次输入密码. 而且总的来说更加安全: 
+```bash
+ssh-keygen -t rsa  # 为了省事的可以一路回车全部选默认值. 
+cd ~/.ssh  # 进入自己电脑 home 下的 .ssh 文件夹
+ssh-copy-id -i ./id_rsa.pub usernameOnServer@your.server.host.ip
+# 然后输入 server 对应用户的密码
+# 成功后会有提示信息
+ssh usernameOnServer@your.server.host.ip
+# 不用输密码直接登录进去了? OK, 成功了!
+```
+
+什么?  IP地址记不住, 而且没有好记的域名?
+```bash
+sudo vim /etc/hosts   # 编辑 hosts  绑定自己喜欢的助记符
+# 根据里面已有文件的格式 添加新的行即可, 比如
+121.122.123.124		myServer
+# 保存退出
+ssh usernameOnServer@myServer
+# 成功
+```
+
+使用频率太高了, 希望能更方便一点?   直接添加 alias 吧! 
+```bash
+vim ~/.bashrc
+# 在其中添加一行 alias
+alias goMySrv 'ssh usernameOnServer@myServer'
+# 保存退出
+source ~/.bashrc
+# 使其生效
+goMySrv
+# OK, 链接上了! 不能更方便了!
+```
 
 
 
