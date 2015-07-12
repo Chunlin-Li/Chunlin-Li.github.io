@@ -748,14 +748,288 @@ var select = function (callback) {
 
 #### 4.3.1.3 多异步之间的协作方案
 
-一般情况下, 事件与监听器是一对多的关系, 但在异步编中, 也会出现多对一的情况:  
+一般情况下, 事件与监听器是一对多的关系, 但在异步编中, 也会出现多对一的情况:  一个业务逻辑, 同时依赖多个通过回调或者事件传递的结果. Node 被人诟病的回调嵌套过深的原因也正在于此.
+
+其实, 只需要一个**_哨兵变量_**即可, 将该变量封装, 在其中注册业务所需要依赖的所有事件, 只有当所有事件都达成, 才执行特定回调. 
+
+```js
+var after = function (times, callback) {
+	var count = 0, results = {};
+	return function (key, value) {
+		results[key] = value;
+		count ++;
+		if (count === times) {
+			callback(results);
+		}
+	}
+}
+// 可以考虑将 times 换成事件数组, 以便更精确的控制. 
+```
+事件触发方式 :
+
+```js
+var emitter = new events.Emitter();
+var done = after(times, dosomething);
+
+emitter.on("done", done);
+emitter.on("done", other);
+
+fs.readFile(template_path, "utf8", function (err, template) {
+	emitter.emit("done", "template", template);
+});
+db.query(sql, function (err, data) {
+	emitter.emit("done", "data", data);
+});
+l10n.get(function (err, resources) {
+	emitter.emit("done", "resource", resources);
+});
+// emit中第一个"done" 是事件, 第二个参数是哨兵变量中的key , 第三个参数是哨兵变量中的value;
+```
+
+以上只是最简单的一种处理逻辑, 可以根据实际情况进行更合理的抽象. 
+朴灵主导的 [EventProxy](https://github.com/JacksonTian/eventproxy) 模块提供了一种更好的解决方案   
+它是对发布订阅模式的扩充, 可以自由组合订阅多种事件. 可用于前端和后端.
+
+#### 4.3.1.4 EventProxy 
+// 暂跳过
+
 
 
 ### 4.3.2 Promise / Deferred 模式
 
+发布订阅模式需要提前设定所有分支的处理方式,  而 P/D 模式允许先执行异步调用, 延迟传递处理方式.
+
+**非** Promise / Deferred 模式
+```js
+$.get('/api', {
+	success: onSuccess,
+	error: onError,
+	complete: onComplete
+});
+```
+
+Promise / Deferred 模式 
+```js
+$.get('/api')
+	.success(onSuccess1)
+	.success(onSuccess2)
+	.error(onError)
+	.complete(onComplete);
+```
+
+P/D 模式在一定程度上缓解了异步回调出现深度嵌套的问题.
+
+#### 4.3.2.1 Promises/A
+
+Promises/A 提议对单个的异步操作作出了如下抽象定义:
+
+* Promises 操作只会处于三种状态的一种:  *未完成态*, *完成态* 和 *失败态*
+* 只能从 *未完成* 态向 *完成态* 或 *失败态* 转化, 不能逆转. *完成态* 和 *失败态* 之间也不能转化
+* 状态一旦发生转化, 将不能被更改.
+
+API 定义上, 一个 Promise 对象只要具备 `then()` 方法即可.    
+`then()` 方法有如下要求 :
+
+* 接受完成态, 错误态的回调方法. 操作完成或者出现错误时, 将调用对应方法.
+* 可选的支持 progress 事件回调作为第三个方法.
+* 只接受 function 对象, 其他对象将被忽略.
+* 返回的还是一个 Promise 对象, 以实现链式调用.
+
+`then()` 方法定义: 
+```js
+then(fulfilledHandler, errorHandler, progressHandler)
+// (成功回调, 失败回调, 其他处理回调(可选))
+```
+
+P/D 模型是一种较为高级的抽象 ( 相对于事件订阅发布模式 ), 因此, 它的功能更加强大, 但是代价是灵活性较差, 需要针对特定的业务场景对 API 进行封装. 并且会有很强的代码侵入性.
+
+Deferrd 对象是用来封装 API 的, Promise 是封装后的 Deferrd 对象返回给外部的接口. 该接口只有一个 `then()` 方法. 用于接受用户编写的回调.  因此可以近似将 Promise 和 Deferred 理解为同一种模型的不同侧面. 
+
+对于 API 的封装者, 他看到的是 Deferred 对象, 其中包含 Promise 对象, 对于使用者, 他看到的是 Promise, 并通过 Promise 的 `then()` 方法, 设定该 API 的成功和失败处理方法. 
+
+Promise 模型的完成态 和 失败态 是通过 Defered 对象的 `resolve()` 和 `reject()` 方法来实现的. 
+
+常用的 Promise 模型实现 : **Q模块** 和 **when模块**
+
+
+#### 4.3.2.2 Promise 中的多异步协作 
+
+用 Promise 来解决 "恶魔金字塔" 问题.  ( 多异步协作 )
+
+多异步操作全部成功, 才算成功:  可以使用 `all(promises)` 方法    ( 可使用 Q 或 when 的实现 )
+
+* 将多个异步操作的 promise 对象放入一个数组 promises 中,  并将该数组传给 all() 方法, 该方法将返回 promise 对象, 在其中编写上述一组 promise 任务整体的 成功和失败回调. 
+ 
+
+#### 4.3.2.3  Promise 的进阶知识
+
+使用 Promise 解决异步 API 同步化问题.  
+
+**问题背景** :
+对于多个函数相互依赖的调用:
+```js
+do0(function(){
+	do1(function(){
+		do2(function(){
+			do3(function(){
+				do4(function(){
+					// ......
+				});
+			});
+		});
+	});
+});
+```
+
+解决方式: 
+```js
+promise()
+	.then(do0)
+	.then(do1)
+	.then(do2)
+	.then(do3)
+	.then(do4)
+	.then(resolve, error)
+	.done();
+```
+
+其实质就是将每一步的回调函数保存在一个 *队列* 中,  Promise 完成时, 逐个出队执行,  当前任务遇到 Promise 对象, 则换由该 Promise 对象取出队列中的下一个回调执行. 
+
+
+**将 API Promise 化** 
+
+```
+// 传入参数就是想要进行 Promise 化的函数
+var smooth = function(method) {
+	return function() {
+		var deferred = new Deferred();
+		var args = Array.prototype.slice.call(arguments, 0);
+		args.push(deferred.callback());
+		method.apply(null, args);
+		return deferred.promise;
+	};
+};
+```
+
 ### 4.3.3 流程控制库
 
 
+之前介绍的 事件发布订阅模式, 以及 Promise/Deferred模式, 都是写进规范中的方案.    
+下面介绍的将是非模式化的第三方库.   包括 **_connect / async / step / wind_** 等
+
+#### 4.3.3.1 尾触发( 尾调用 ) 与 Next
+
+[**_Connect_** 模块](https://github.com/senchalabs/connect)
+
+Connect 是一个 使用中间件的 可扩展的 HTTP server 框架
+
+中间件的基本结构 : 
+```
+function (req, resp, next) {
+	// do something
+}
+```
+
+整个流程中每个中间件都传递 request 和 response 对象, 通过尾函数 next() 继续向下一个中间件传递.    
+
+该模型使得处理网络请求时, 可以向面向切面编程一样进行*过滤,  验证, 日志* 等功能. 而不会产生耦合.
+
+核心代码中使用一个 `stack` 维护服务器内部的中间件队列. 通过调用 `use()` 方法将中间件放入队列中
+```
+app.use = function(route, fn) {
+	// ....
+	this.stack.push({ route: route, handle: fn });
+	return this;
+}
+```
+
+next 方法原理:
+```
+function next(err) {
+	// do something
+	// .....
+	layer = stack[index++];
+	layer.handle(req, res, next);
+}
+```
+
+通过 connect 的流式处理方式, 可以很有效的解决业务逻辑划分问题.    
+
+但是需要注意的是, 使用 connect 是串行化的处理方式, 无法通过任务并行来提高效率. 因此仅在需要的时候再来使用 connect , 而不要滥用.
+
+
+#### 4.3.3.2
+
+[**_async_** 模块](https://github.com/caolan/async)  是一个非常知名的异步流程控制模块.  可以用于 Node 和浏览器端
+
+该模块提供了 20 多个方法用于处理异步的各种协作模式.  以下将介绍集中典型用法
+
+**`series()`** 方法可以用来实现一组任务的串行执行. 
+```js
+async.series([
+				function(callback){ }, 
+				function(callback){ },
+				function(callback){ }
+			 ], 
+			 function(err, results) { } );
+```
+数组中的三个 function 依次顺序执行, 完成后执行最终回调. (*注意, 这些 function 之间不能存在依赖关系*)
+其中的 callback 不需要用户指定, 是由 async 用来保存每一步执行的结果的.    
+异常处理规则: 一旦中途出现异常, 就结束所有函数, 将异常传递给最终回调的 err. 
+
+**`parallel()`**  方法用于并行执行一些异步操作来提高性能. 
+```js
+async.parallel([
+					function(callback) { },
+					function(callback) { }
+				],
+				function(err, results) { } );
+```
+数组中的函数将并发执行.  异常处理类似 series(), 一错皆错.    
+
+在处理上, async 的 `pararllel()` 类似于 EventProxy 的 `all()` .
+
+
+**`waterfall()`** 方法用于存在依赖关系的异步函数串行化
+```js
+async.waterfall([
+					function(callback) { },
+					function(arg1, callback) { },
+					function(arg2, callback) { }
+				],
+				function(err, results) { } );
+```
+和上面的基本一致, 只是除了第一个 function 外, 其他都多了一个用于接收上一步结果的参数 arg.
+
+**`auto()`** 方法用于处理异步同步混合业务.
+```js
+var deps = {
+	task1: function(callback) { },
+	task2: ['task1', function(callback){ }],
+	task3: ['task1', function(callback){ }],
+	task4: function(callback) {},
+	task5: ['task2', 'task3', 'task4', function(callback){ }]
+};
+async.auto(deps);
+```
+auto 方法可以自动根据不同任务之间的依赖关系, 合理安排串并行执行方式.
+
+#### 4.3.3.3 Step
+
+[step](https://github.com/creationix/step) 可以看作是一个轻量级的 async, 它只有一个接口 : `step`
+
+step 中的 this 扮演的角色就相当于之前提到的 next() 方法.
+
+#### 4.3.3.4 Wind
+
+[wind](https://github.com/JeffreyZhao/wind) 
+
+Wind.compile() 方法会将普通函数进行编译, 然后由 eval() 来执行. 
+
+Wind.Async.sleep() 方法内置了对 setTimeout() 的封装.
+
+wind 提供了  `$await()` 方法实现了异步操作的等待.  但事实上它只是一个占位符, 用于通知编译器.   
+$await() 接受的参数是一个 Task.  较为标准的是用  `Wind.Async.Task.create(function(){})` 的方式创建.
 
 
 
