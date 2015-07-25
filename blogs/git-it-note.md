@@ -70,4 +70,74 @@ _推荐下载 [node school](http://nodeschool.io/) 的 git-it 课程进行学习
 * 将本地的分之删除后, 可能还会需要将远端 repo 上的分支也删除, 可以使用命令 `git push [远程 repo 名称] --delete [要删除的分支名称]`
 
 
+
+
+
+## JetBrains IDE Git Integration
+
+
+### 现有代码迁移到 Git 的步骤
+
+> JetBrains 以 idea 为例；git server 以 gitlab 为例；项目是 java 项目.
+
+* 新建一个项目， 从 SVN 检出目标项目代码到 idea 中， 再打开项目
+* 在 gitlab 中创建一个空的 repo, 用于管理目标项目
+* 在 idea 的菜单栏点选 `vcs` -> `import into Version control` -> `create Git repository`. 
+	Git 路径选择当前项目所在的本地路径.
+	该操作会将当前项目的 VCS 从 SVN 切换到本地 Git.
+* 此时在 project 窗口中展开项目中的文件发现都是红棕色， 因为默认这些文件都没有添加到本地的Git Repo中。 选择需要提交的文件， add 到Git中， 然后对整个项目 commit
+* commit 对话框中， 在 commit 按钮旁有下拉菜单， 选择 `commit and push`, 代码将首先提交到本地的 repo 中， 然后执行 push 时会弹出 `push commits` 窗口
+* 点击蓝色的 `Define remote` 链接， 将开始在 gitlab 中创建的空 repo 的 URL 复制粘贴过来， 点击确定完成定义
+* 回到 `commit and push` 菜单， 点击 push 将代码提交到 gitlab 的项目中
+* 至此， 项目成功迁移到 gitlab 中， 不再需要 SVN 。
+
+
+
+
+### 基于 Git 的版本控制方式
+
+在 gitlab 中可以从 任意分支创建新的分支出来    
+创建分支后， 在 idea 中 git | pull 打开对话窗口， 刷新 remote， 可以看到多出新的分支。
+
+#### 本地 checkout 新的开发分支： 
+
+从本地 master 分支开始, 先在本地创建一个新的分支, 比如叫 dev-new.  此时本地 dev-new 分支和本地 master 是一样的.       
+然后此时 打开 git 的 pull 对话框, 更新远端 repo 的信息, 然后在 Branches 中选择我们需要 checkout 的分支, 比如叫做 dev-2.3 .      
+pull 过之后,  本地的 dev-new 就和 dev-2.3 一致了, 并且建立了他们的对应关系, 以后本地 dev-new 分支在 Push 的时候, 默认就是 push 到 dev-2.3 的服务器分支上了. 
+
+
+#### 将服务器指定分支上的代码同步到本地 : 
+
+一般使用 pull 命令.   相当于是 SVN 中的 Update .      
+如果之前在分支 A 上, 我们也可以从分支 B 上 pull, 这样我们本地的分支将会和最新一次 pull 的远端分支建立关联    
+
+
+#### 将自己的开发分支合并到主开发分支 :
+
+假设, 主开发分支是 D, 我们自己的分支是 D1,  本地分支 LD1 对应远端分支 D1.
+
+1. 我们可以将LD1分支的修改都 push 到 D1 分支, 然后在 gitlab 对应的 project 下使用 Merge Request 功能, 创建一个 D1 到 D 的 Merge, ( 可以勾选合并后自动删除 D1 分支的选项 )
+2. 直接从本地的 LD1 向远端的 D push 代码, 此时可能需要进行 pull and push 方式, 先从远端 D 分支 pull 最新分支到本地合并, 然后再 push 到 远端 D 分支上. 
+
+#### 将当前远端分支回滚到之前指定分支 :
+
+直接在 VCS 中选择对应的 commit, 将其 checkout 出来即可, 已经提交的修改将回滚到指定的 Commit , 而尚未提交的 修改, 则仍然保留.
+
+
+#### **Rebase : **
+
+开始的时候从分支 A 上签出代码创建本地分支, 修改了几次后发现, 分支A 已经被别人提交过修改了, 此时可以将 A' pull 到本地的分支上.  而另一种可以达到同样效果的方法就是 rebase.
+
+相当于之前 base A 分支, 现在发现那个 A 分支已经过时陈旧了, 因此重新 base 到 A' 或者 B 什么的.     
+开始的时候 从 A 上签出代码后我们做的所有修改提交的集合假设为 C,  那么我们 rebase 前, 我们自己分支的代码应该是 A + C,   rebase 之后, 我们自己的分支应该是 A' + C 了.
+
+
+
+
+
+
+
+
+
+
 > Written with [StackEdit](https://stackedit.io/).
