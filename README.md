@@ -20,3 +20,5 @@
 [NOSQL DATA MODELING TECHNIQUES](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/nosql-data-modeling-techniques-translate.md)
 
 [Java Server 性能监控和分析](blogs/java-server-perf.md)
+
+[ShadowSocks 代理转 HTTP 代理的方法](blogs/polipo.md)
