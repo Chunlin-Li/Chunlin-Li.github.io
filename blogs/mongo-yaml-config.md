@@ -25,7 +25,7 @@ net:
 storage:
    # 数据存储路径
    dbPath: "/mongodb/DB1/data"
-operationProfilng:
+operationProfiling:
    # 记录日志的慢查询阈值
    slowOpThresholdMs: 30
    # 模式 : on  off  slowOp
@@ -35,6 +35,11 @@ replication:
    replSetName: myRepl1
 ```
 
+
+#### 单节点 Replication 模式运行 
+使用 `mongod -f /path/to/conf` 启动 mongod    
+使用mongo shell连接上去, 执行 `rs.initiate()` 进行单机 replication 的初始化, 完成初始化后 mongod 将进入 PRIMARY 模式.    
+使用 `rs.conf()` 命令查看当前的运行模式.
 
 
 > Written with [StackEdit](https://stackedit.io/).
