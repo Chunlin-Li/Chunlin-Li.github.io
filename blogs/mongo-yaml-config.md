@@ -33,13 +33,41 @@ operationProfiling:
 replication:
    oplogSizeMB: 512
    replSetName: myRepl1
+security:
+   authorization: disabled
+
 ```
 
 
-#### 单节点 Replication 模式运行 
-使用 `mongod -f /path/to/conf` 启动 mongod    
-使用mongo shell连接上去, 执行 `rs.initiate()` 进行单机 replication 的初始化, 完成初始化后 mongod 将进入 PRIMARY 模式.    
+#### 单节点 Replication 模式运行
+使用 `mongod -f /path/to/conf` 启动 mongod
+使用mongo shell连接上去, 执行 `rs.initiate()` 进行单机 replication 的初始化, 完成初始化后 mongod 将进入 PRIMARY 模式.
 使用 `rs.conf()` 命令查看当前的运行模式.
+
+
+#### 用户验证
+最初的时候, 配置文件中  auth 是  disabled,  不用验证就可以从本机登录到 mognod 上.
+连接上后, 首先 `use admin` 创建全集的管理员用户.
+```
+db.createUser({
+    user: 'zhangsan',
+    pwd: '123456',
+    roles: ['root']
+  })
+```
+创建成功后, 切换到自己的数据db, `use myData`
+创建该db的管理员.
+```
+db.createUser({
+    user: 'lisi',
+    pwd: '123456',
+    roles: ['dbOwner']
+  })
+```
+注意db的管理员与全局的管理员可以同名. dbOwner 的权限相对较高. 详细的角色列表参见[文档](http://docs.mongodb.org/manual/reference/built-in-roles/)
+
+完成以上最初的用户创建工作后, 可以关闭 mongod 了, 然后修改配置文件, 将 `security.authorization` 选项改为 `enabled`, 然后重启 mongod.
+此时, mongod 就只能由验证过的用户才可以操作了
 
 
 > Written with [StackEdit](https://stackedit.io/).

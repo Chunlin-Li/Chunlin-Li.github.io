@@ -25,6 +25,8 @@
 
 [NOSQL DATA MODELING TECHNIQUES](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/nosql-data-modeling-techniques-translate.md)
 
+[MongoDB 3.0 配置方法](blogs/mongo-yaml-config.md)
+
 -----------------------------------
 
 ### Linux 相关
@@ -44,5 +46,3 @@
 ### 其他
 
 [git-it: git/github 简易教程](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/git-it-note.md)
-
-
