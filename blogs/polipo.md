@@ -26,13 +26,48 @@ sudo apt-get install polipo
 service polipo restart
 ```
 
-启动后就可以使用了. 
+启动后就可以使用了.
 
 
 #### 遇到的问题
 
 * 如果使用 HTTP 代理访问的时候出 504 或者其他 50x 的错误代码, 检查 `socksParentProxy` 配置是否正确, 检查 ShadowSocks 服务是否运行正常.
 * 如果访问出现 403 , 没有验证, 检查 poplipo 的 `config` 配置中是否打开了 allowedClient 配置项, 将其注释掉即可.
+
+
+### 使用 HAProxy 做 Shadowsocks 的中继.
+
+使用 HTTP 代理总觉的不安全, 而且, 遇到一个问题是, 公司的网络似乎无法连上米国的 VPS 了.
+但是使用中发现, 国内的云主机是可以连上 VPS的, 所以现在只需要将 ShadowSocks 中继到国内云主机即可.
+在 GitHub 上找到方法, 使用 `HAProxy` 可以做 TCP 的中继. 测试果然可用!
+
+Ubuntu 12.04 下载 HAProxy 很方便: `apt-get install haproxy`
+
+之后, 在 `/etc/haproxy/haproxy.conf` 路径拿到配置文件, 并修改 :
+```
+global
+        ulimit-n  51200
+        daemon
+
+defaults
+        log global
+        mode    tcp
+        option  dontlognull
+        contimeout 1000
+        clitimeout 150000
+        srvtimeout 150000
+
+frontend ss-in
+        bind *:1234
+        default_backend ss-out
+
+backend ss-out
+        server server1 xxx.xxx.xxxx.xxx:1234 maxconn 20480
+
+```
+frontend 对接最终用户, backend 对接米国 VPS. 设置好 IP 和端口即可.
+客户端 Shadowsocks 相关配置参数都保持不变, 包括密码 加密方式等, 仅仅将 IP 和端口换一下即可.
+
 
 
 
