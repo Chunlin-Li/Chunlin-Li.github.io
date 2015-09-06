@@ -9,9 +9,8 @@
 
 联系方式 :     
 
-* 手机 :  63709311981  (reverse)
-* 微信 :  gninehcal  (reverse)
-* E-mail : zhglclyx#163#com
+* 微信 :  lachening
+* E-mail : zhglclyx#gmail.com
 
 教育背景 :  辽宁科技大学 自动化专业 工学学士 ( 2007 - 2011 )   
 出生年月 : 1989.03    
@@ -23,14 +22,11 @@
 ### 主技能
 
  * Java
-	   * 有一定的 Java SE 功底   
-		   _Thinking in java, 2nd_读了一半; OO思想至少是个平均水平; 异常处理, 线程及并发, 泛型反射集合都是平时比较常用的东西;    
-		   JVM 了解了一些,  _深入理解 Java 虚拟机_ 这本书浏览过一遍, 结合以前在底层的基础知识, 还是能够比较好的理解 Java 底层的运行
-	   * MVC 框架, CURD熟练    
-			虽然 CURD 在多数情况下没有太多变化, 但不可否认业务代码中很重要的一部分就是 CRUD. 
-	   * 熟悉 MongoDB, redis 的 java API   
-		    业务主数据库使用 MongoDB.  redis 做热点数据缓存和通信管道
-	   * Java 代码写的比较规范, 应该有个平均水平. 有查看源码的好习惯.  有反复修改代码的 "坏" 习惯
+	   * 有一定的 Java SE 功底, 异常处理, 多线程都是比较熟悉的部分.   
+	   * 了解 JVM, 做过内存方面的性能监控和分析, 会使用 jmap, jstack 等工具
+	   * 构建过一些相对简单的项目框架.
+	   * 了解测试, 并在工作中尝试实践 TDD. 
+	   * 数据库方面主要使用 MongoDB, redis 的 java API.   
 
 
  * MongoDB
@@ -38,25 +34,27 @@
 	 * 理解去范式化的 NoSql 数据模型设计思想, 翻译过相关的技术文章 [[此处链接]](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/nosql-data-modeling-techniques-translate.md).
 	 * 理解 MongoDB 复制集的工作原理及配置, 了解 MongoDB 数据库集群的构建原理和方式.
      * 做过基于索引和查询方式的数据库性能优化.
-	 * 熟练使用 Mongo Java Driver, 了解 pymongo driver.
+	 * 熟练使用多种 Client Driver, 包括 java, python, javascript.
 	 * 熟练使用 Mongo 自带的命令行客户端,  以及 MongoVUE, RoboMongo 等GUI工具
 
  * javascript
-	 * 有一定的 javascript 功底, (javascript good parts, 通读,  javascript ninja secret 看了小一半). 对于 javascript 的 function, 闭包, 回调等概念有所理解. 目前正在学习朴灵老师的_深入浅出 Node.js_.
-	 * jQuery , require 等常用的工具在项目中使用过. 其他中小型 js 库现用现学没啥问题. 其他大型的 Web 框架式 js 库暂未用过, 但很愿意去尝试和学习.
-	 * 做过 canvas 上的小交互功能, 这一块算是勉强入门了. 
+	 * 有一定的 javascript 功底, 能较好的理解并应用回调, 闭包, 事件, 继承等特性.
+	 * 较为熟悉 Node 的使用, 主要是 Express 搭建服务端. 有上线使用的项目.
+	 * Web 端 jQuery , require 等常用的工具在项目中都使用过.
+	 * 应用过一些 canvas 特性, 做了有奖邀请的活动页面, 并上线使用. 
 
 
 ### 辅助技能
 
 * **HTML / CSS**    
-对 H5 比较熟悉, 项目中使用过一点 canvas 的开发, CSS 可以应付较为简单的布局, 属性背不下来, 但是熟悉 MDN 的相关文档, 能通过文档解决多数问题. LESS/SASS 暂时没有用到过. 
+达到较为简单的工程应用水平, 可以做一些不是太复杂的交互和布局. 做过浏览器兼容的工作(safari 和 chrome ), 但不多.
 
 * **python 脚本**   
+搭建过一个较为简单的 Python 的服务监控系统, 主要使用 apscheduler 实现.
 用 python 写过简单的 nginx 日志分析工具, 写过业务日志的分析脚本, 以及一些用于临时任务的 python 脚本, 主要接触 python 和 redis 的 driver 进行数据库维护工作.
 
 * **Linux**    
-脚本方面主导服务端的部署上线脚本, 以及对接一些较为简单的日志维护和分析脚本.     
+脚本方面负责服务端的部署上线脚本, 以及对接一些日志维护和分析脚本.     
 系统管理方面主要负责服务器环境的配置, 相关工具和服务程序的安装, 以及其他一些管理工作.     
 有过UNIX系统的使用经验. ( FreeBSD )
 
@@ -67,11 +65,11 @@
 学过一些简单的基本用法, 在数据库模糊查询, 以及日志分析时的数据结构化中使用频率较高. 用到分组, 零宽断言, 重复以及常用的转义代码.
 
 * **开发环境**   
-目前工作和自用操作系统都是  Ubuntu Desktop.  此前对 Windows 操作系统使用非常熟练.  对苹果的产品暂时没什么兴趣    
-	Java 开发曾使用 Eclipse, 目前迁移到 Intellij IDEA.   
-	前端开发曾使用 Sublime Text 3, 目前迁移到 WebStorm. 浏览器熟练使用 Chrome.   
+目前工作和自用操作系统都是  Ubuntu Desktop.  此前对 Windows 操作系统使用非常熟练.     
+	Java 开发曾使用 Eclipse, 目前已迁移到 Intellij IDEA 并使用熟练.   
+	前端开发曾使用 Sublime Text 3, 目前迁移到 WebStorm. 浏览器调试环境熟练使用 Chrome.   
 	Linux Shell 环境下使用 vim   
-	版本控制最熟悉 svn, git 有所了解	   
+	版本控制熟练使用 git,  早期用过一段时间 subversion	   
 
 * **算法**   
 大学期间有段时间对算法很感兴趣, 做过一点 OJ 的题, 但没有系统学习过竞技理论和技巧, 读过一点数学方面的书, 喜欢使用算法和数学的思维挑战一些对我来说有点难度的问题.  之前的工作中感觉工程中很少有这方面的机会.
@@ -102,11 +100,7 @@
 * 性格温和, 没什么脾气, 非常容易融入团队. 合作中能够为他人着想, 得到队友好评.
 * 知识是死的, 人是活得. 从不畏惧和排斥自己没有接触过的领域.
 
-不喜欢过于传统的东西, 比如 JSP / Hibernate / Struts / Tomcat, 如非必要, 不想再碰.  (不是看不上它们, 只是我也有自己的职业规划和发展方向)    
-期望的发展方向: MEAN (MongoDB / Express / Angular ? / Node);  Java 中间件, 框架, 优化等较为深入的应用; python 相关开发(任意方向); 网络安全; 其他有趣的东西.
-
-待遇期望 : 
-很难直接给出个薪金的要求, 我通常会根据诸多因素综合考虑. 大致优先级为 `成长学习空间 > 公司文化和氛围 > 身边同事是否让我仰慕 > 薪金是否和我的贡献匹配`
+期望的技术发展方向:  Java ,   javascript ,  python ;  其他先进而高效的技术.
 
 其他 : 
 
@@ -124,6 +118,7 @@
 除了 iOS / Android 客户端开发之外的所有其他工作, 主要有:      
 
  * 参与百万用户, 十万日活社交APP的 Java 后台和 MongoDB 主数据库的开发, 维护和优化工作.     
+ * 主导社区的后台重构, 代码优化, 技术调研等.
  * 负责上述应用的内部运营管理平台的全栈开发, 参与 APP的数据统计系统的开发.
  * 参与阿里云主机 Linux 服务器的运维管理, 服务器部署工作.
  * 主导图片系统向又拍云的迁移重构, 参与即时通讯系统向环信的迁移重构.
