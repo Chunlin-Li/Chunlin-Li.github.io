@@ -48,3 +48,5 @@
 ### 其他
 
 [git-it: git/github 简易教程](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/git-it-note.md)
+
+[大型网站技术架构--李智慧  读书笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/large-scale-web-structure-lizhihui.md)
