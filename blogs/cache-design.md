@@ -21,9 +21,7 @@ Cache 系统设计
 
 * [MS .NET System.Web.Caching 文档](https://msdn.microsoft.com/en-us/library/System.Web.Caching.aspx)
 * [Cache Design](http://cseweb.ucsd.edu/classes/fa10/cse240a/pdf/08/CSE240A-MBT-L15-Cache.ppt.pdf) 硬件 Cache 原理和理论 PPT
-
-
-
+* [Cache-Aside Pattern](https://msdn.microsoft.com/en-us/library/Dn589799.aspx)
 
 
 ## 关于 Cache 的抽象理论:
@@ -44,7 +42,22 @@ Cache 要解决的问题是加速, 其中至少涉及两个层次, 一个快一�
 有两个方向: Cache 靠近数据库; Cache 靠近业务出口. 各有利弊. 
 
 靠近数据库的方向, 粒度比较细, 将常用的数据模型分成比较小的块, 按照块进行 Cache, 可以将
+=======
+从软件方面考虑, 数据库需要保存全部数据, 量大; 需要支持复杂的查询, 功能多; 数据非易失, 需落盘, 因此速度慢.    
+而缓存相对数据量小, 支持的查询简单(如 key-value方式), 数据无需持久化, 可以存在内存中, 因此速度快.
 
+性能加速的计算方法 :  需要加速的部分, 在整个系统中的耗时占比为 T, 整个系统的总耗时为 A. 通过 Cache 加速可以将该部分性能提高到原先的 X 倍. 那么加速后对整个系统时间提升为 A(1 - T(1 - 1/X)).
+
+有时需要使用多层缓存来进行更进一步的性能提升. 但实现上将更加复杂.
+
+
+
+## Web 系统中的 Cache 设计
+
+分级:    DB (MySQL, Mongo 等), Cache (Redis, Memcache 等), Java 堆内存缓存
+
+对于占用空间较少, 键值少, 一次载入后很少进行修改的内容. 可以考虑使用 Java 中的 Map 或其他数据结构实现.   
+采用这种方式的缓存通常和其他部分的业务没有什么联系, 独立性很强.
 
 
 
