@@ -44,6 +44,14 @@ security:
 使用mongo shell连接上去, 执行 `rs.initiate()` 进行单机 replication 的初始化, 完成初始化后 mongod 将进入 PRIMARY 模式.
 使用 `rs.conf()` 命令查看当前的运行模式.
 
+如果无法自动完成 replication 的初始化, 需要手动操作, 参考[文档](http://docs.mongodb.org/manual/tutorial/deploy-replica-set/#procedure)    
+例如 : 
+
+```
+> var rsconf = {"_id": "myRepl", "version": 1, "members": [{"_id": 1, "host": "127.0.0.1:27017"}]}
+> rs.initiate(rsconf)
+```
+
 
 #### 用户验证
 最初的时候, 配置文件中  auth 是  disabled,  不用验证就可以从本机登录到 mognod 上.
