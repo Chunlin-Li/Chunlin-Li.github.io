@@ -226,5 +226,41 @@ goMySrv
 ```
 
 
+## MacBook Pro 12-1 上 安装 Ubuntu 15.10
+
+网上有很多安装教程, 都是如何安装双系统, 但是我想要安装一个纯净的 Ubuntu.
+
+其他有关 Mac 上安装 Ubuntu 的文章: 
+
+https://help.ubuntu.com/community/MacBookPro12-1/Wily     
+
+
+主要的问题集中在安装后的引导. 由于需要将磁盘全部格式化, 因此, 重点在与安装 Ubuntu 时的分区方式.
+
+1. 首先保证磁盘的分区表是 gpt 而不是其他. 使用 gparted, parted, fdisk 等工具都可以查看.
+2. 将所有分区删除, 重新创建分区. 
+3. 首先需要一个 ESP(EFI System Partition) 分区. [创建ESP分区的参考](https://help.ubuntu.com/community/UEFI#Creating_an_EFI_System_Partition)
+	这里简述一下: 推荐使用 gparted 创建ESP分区, 在 Live 系统下, 通过 Launcher 启动 gparted 图形化工具, 在目标磁盘上创建首个新分区, 类型 primary, 格式 FAT32, 大小200MB.
+	创建后应用, 使修改生效. 然后选定刚才的分区, 在 partition 菜单下有一个 flag manage 选项, 打开后选定 ESP(EFI System Partition) 项, 然后应用修改. 这样就完成了 ESP 分区的创建.
+4. 然后直接启动 Ubuntu 的安装, 在分区的地方选择进行手动分区, 不要对ESP分区进行改动或设定 mount point. 直接在 free space 上继续进行分区操作.
+5. ESP 后的第二个分区是 boot 分区, 挂在 /boot 路径, 类型 primary, 格式 ext2, 大小 200MB
+6. 然后剩下的按照自己的需要去分配即可, 比我我是 120GB 的 / 分区(ext4), 剩下的都是 swap 分区. 
+7. 完成分区后开始安装系统, 注意系统完成后 **先不要重启**.
+8. 系统安装过程中, 我们可以安装 efibootmgr 工具, `sudo apt-get install efibootmgr` 
+9. 执行 `efibootmgr` 显示当前系统的 efiboot 信息, Mac 系统默认是 Boot0080, BootOrder 是 0080 即默认直接启动 Mac 系统. 
+10. Ubuntu 安装完成后重新再执行 `efibootmgr` 命令, 会出现一个新的 Boot 启动项, 可能会带有 Linux 的标签, BootOrder 自动变成 xxxx,0080, 其中 xxxx 对应 Linux 启动项的 hex 编号.
+11. 如果 BootOrder 没有自动改变, 需要使用 `efibootmgr -o xxxx,0080` 来手动设定新的 BootOrder, xxxx是 Linux 启动项的 hex 编号, 比如我的是 0001.
+12. 重启, Mac 将引导进入 Ubuntu 15.10 
+
+注: 15.10 版本之前的 Ubuntu 安装在 Mac 上后, 有可能出现 WIFI 无法正常驱动, 屏幕亮度不能调节, 触摸板没有滚动功能等问题. 
+
+#### 在 Ubunutu 下制作 Ubuntu 系统安装 USB disk 的方式
+
+系统中有  StartUp Disk creator, 但是总觉得不太好用, 
+
+可以使用 Disk 工具, 直接选中 USB Disk, 在右侧的设置按钮中, 找到 Restore Disk Image 项打开, 选定 ISO 文件, 直接 Restore 即可. 
+
+注意这种方式制作的 USB Disk 不能再写入其他文件. 
+
 
 > Written with [StackEdit](https://stackedit.io/).
