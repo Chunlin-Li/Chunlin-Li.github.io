@@ -130,10 +130,11 @@ f --> Delete
 	如果实在搞不定, 直接恢复成之前备份的配置文件, 放弃改键吧. xkb 的难用是出了名的. 替换完后删掉 .xkm 文件重启就 OK 了.
 
 
-### 另一种可能的键盘配置, 适用于 Mac 笔记本   2015-10-17 更新
+### 另一种可能的键盘配置, 适用于 Mac 笔记本   (2015-10-17 更新)
 
-Caps Lock --> Control     ( 交换keycode )
-ALT R --> Mode Switch    (右 Alt 变 MDSW,  原 MDSW 注掉)
+Caps Lock --> Control     ( 交换keycode )        
+
+ALT R --> Mode Switch    (右 Alt 变 MDSW,  原 MDSW 注掉)           
 
 上下左右 Home End PageUp PageDown  仍然映射为 Mode Switch + 右手区域的按键, 如之前的方案. 
 
