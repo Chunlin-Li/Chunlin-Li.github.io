@@ -129,6 +129,119 @@ f --> Delete
 	呵呵, 这种情况我真的只能呵呵了, 由于水平有限, 我自己的解决方案是, 用 ubuntu 启动 U 盘启动, 进入试用, 然后通过挂载上来的原磁盘, 找到配置文件仔细检查, 这种问题一般是由于格式错误, 括号写反等低级错误导致, 也有是因为配置了一种 xkb 不支持的映射, 找到他们, 尝试修改, 重新再试.
 	如果实在搞不定, 直接恢复成之前备份的配置文件, 放弃改键吧. xkb 的难用是出了名的. 替换完后删掉 .xkm 文件重启就 OK 了.
 
+
+### 另一种可能的键盘配置, 适用于 Mac 笔记本   2015-10-17 更新
+
+Caps Lock --> Control     ( 交换keycode )
+ALT R --> Mode Switch    (右 Alt 变 MDSW,  原 MDSW 注掉)
+
+上下左右 Home End PageUp PageDown  仍然映射为 Mode Switch + 右手区域的按键, 如之前的方案. 
+
+MAC 需要将左侧的 Command 和 Alt 交换位置,  右侧 Command 映射为 Mode,  相对比较复杂.
+
+详细的配置方式参考代码片段: 
+
+/usr/share/X11/xkb/symbols/us 的配置和最初的一样, 不需要修改. 
+
+/usr/share/X11/xkb/symbols/pc 的关键代码如下: 
+
+```
+	key  <TAB> {        [ Tab,  ISO_Left_Tab    ]       };
+    key <RTRN> {        [ Return                ]       };
+
+    key <CAPS> {        [ Caps_Lock             ]       };
+    key <NMLK> {        [ Num_Lock              ]       };
+
+    key <LFSH> {        [ Shift_L               ]       };
+    key <LCTL> {        [ Control_L             ]       };
+    key <LWIN> {        [ Super_L               ]       };
+
+    key <RTSH> {        [ Shift_R               ]       };
+    key <RCTL> {        [ Control_R             ]       };
+    key <RWIN> {        [ Super_R               ]       };
+    key <MENU> {        [ Menu                  ]       };
+// 注: 以上代码都保持不变, 否则更换不同布局的键盘会导致越改越乱的情况.
+
+	// Beginning of modifier mappings.
+    modifier_map Shift  { Shift_L, Shift_R };
+    // modifier_map Lock   { Caps_Lock };
+    modifier_map Control{ Control_L, Control_R };
+    modifier_map Mod2   { Num_Lock };
+    modifier_map Mod4   { Super_L, Super_R };
+// 注: 以上部分只需将 Lock 的那行注掉不用就行. 其他的也不做更改.
+
+    key <ALT>  {        [ NoSymbol, Alt_L       ]       };
+    // include "altwin(meta_alt)"
+    key <LALT> {        [ Alt_L, Meta_L         ]       };
+    key <RALT> {        [ Mode_switch           ]       };
+    modifier_map Mod1 { Alt_L, Meta_L };
+// 注: 原有的 include 的配置直接拿过来做修改, 这样就不再依赖 altwin 配置文件.
+// 注意 RALT 的对应 Symbol 改成 MDSW 了, 另外, Mod1 中和 RALT 有关的都删掉.
+
+    // Fake keys for virtual<->real modifiers mapping:
+    key <MDSW> {        [ Mode_switch           ]       };
+    modifier_map Mod5   { <MDSW>, <RALT> };
+// Mod5 中根据需要将 RALT 加进来,
+
+```
+
+/usr/share/X11/xkb/keycodes/evdev   主要是修改 keycode 到 对应变量的映射. 涉及具体键盘布局的问题, 主要是要修改这个文件.
+
+```
+        // <CAPS> = 66;
+        <RCTL> = 66;
+// 将 CAPS 替换成 RCTL        
+        // <RCTL> = 105;
+        <CAPS> = 105;
+// 将 RCTL 替换成 CAPS        
+        // <RALT> = 108;
+         <MDSW> = 108;
+        // <MDSW> =   203;
+// 将 RALT 替换成 Mode Switch
+```
+
+如果是Mac键盘,   evdev 配置如下
+```
+        // <CAPS> = 66;
+        <RCTL> = 66;
+        // <RCTL> = 105;
+        <CAPS> = 105;
+// 交换 CAPS 和 RCTL 键, 其实 RCTL 几乎很少用
+        // <LALT> = 64;
+        <LWIN> = 64;
+        // <LWIN> = 133;
+        <LALT> = 133;
+// 交换左Command 键和 Alt 键                
+        // <RALT> = 108;
+        <PRSC> = 108;
+        // <PRSC> = 107;
+// RALT 也没什么用了, 干脆换成 Print Screen
+        // <RWIN> = 134;
+        <MDSW> = 134;
+        // <MDSW> =   203;
+// RCOMMAND 键设置为 Mode Switch
+
+```
+
+### xkb 的导出和导入
+
+当前配置导出 :   
+```
+xkbcomp $DISPLAY myxkb.dump
+// 导出的文件是文本, 可编辑, 但结构比较复杂.
+```
+导入配置:
+```
+xkbcomp myxkb.dump $DISPLAY
+```
+直接切换配置文件并生效:   可以参考文末第一篇引用文章.
+```
+setxkbma -keycodes [keycodes配置文件名] -print | xkbcomp - $DISPLAY
+```
+
+
+
+
 以上都是低级用法, 更详细的文档和指导请参考这里 : 
 
 * [http://madduck.net/docs/extending-xkb/](http://madduck.net/docs/extending-xkb/)
