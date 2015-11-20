@@ -118,7 +118,7 @@ f --> Delete
 
 现在需要让系统重新编译配置文件, 我们进入以下路径: 
  `/var/lib/xkb` ,
-将该路经下所有的 .xkm 文件都删除.
+将该路径下所有的 .xkm 文件都删除.
 然后 logout 注销用户, 再重新登录到图形界面. 如果一切顺利, 此时按键修改完成.
 
 但是, 哪来那么多一切顺利? 你很有可能碰到以下两种情况:
@@ -237,7 +237,7 @@ xkbcomp myxkb.dump $DISPLAY
 ```
 直接切换配置文件并生效:   可以参考文末第一篇引用文章.
 ```
-setxkbma -keycodes [keycodes配置文件名] -print | xkbcomp - $DISPLAY
+setxkbmap -keycodes [keycodes配置文件名] -print | xkbcomp - $DISPLAY
 ```
 
 
