@@ -11,6 +11,8 @@
 
 ### Nodejs / Javascript 相关
 
+[node/javascript 性能benchmark](blogs/node_performance_benchmark.md)
+
 [Node Express Server 开发笔记](blogs/express-server-notes.md)
 
 [**_深入浅出 Node.js  -- 朴灵_** 读书笔记 ](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/shenruqianchu-nodejs.md)
