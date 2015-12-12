@@ -262,5 +262,29 @@ https://help.ubuntu.com/community/MacBookPro12-1/Wily
 
 注意这种方式制作的 USB Disk 不能再写入其他文件. 
 
+## problems about keyboard layout
+
+ubuntu 15.10 has some config file about mac keyboard options, the path is /sys/module/hid_apple/parameters.    
+There are three file in that fold :  fnmode  iso_layout  swap_opt_cmd
+
+### fnmode : 
+
+0 = disabled : Disable the fn key. Pressing <fn+F8> will behave like you only press F8
+
+1 = f-keys last : Function keys are used as last key. Pressing F8 key will act as a special key. Pressing <fn+F8> will behave like a F8.
+
+2 = f-keys first : Function keys are used as first key. Pressing F8 key will behave like a F8. Pressing <fn+F8> will act as special key (play/pause).
+
+### iso_layout :
+
+1 is default. the `|~ key will not work correctly, it will produce <|> characters.     
+we want set it to 0, than it will work as our expect.   
+
+### swap_opt_cmd :
+
+The Mac has command key, and the alt(option) key and command key is different from general position.
+
+this value is 0 (default).   we want to set it to 1 to swap command key and alt key.
+
 
 > Written with [StackEdit](https://stackedit.io/).
