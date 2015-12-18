@@ -81,5 +81,16 @@ n 默认在 /usr/local/ 下会创建一个 n/version/node 文件夹, 其中是�
 切换不同版本后, npm 依然以链接的方式链接到到 origin 版本的 npm. 
 
 
+## JavaScript Nodejs  异常处理  错误处理
+
+
+try catch 异常捕获:  特别需要注意的是,  try catch 只能捕获一个 tick 中的异常, 如果try 中调用的一个函数被异步执行, 则异步执行时抛出的异常, 无法被 Caller 的 try 所捕获. 这是一个非常重要的原则! 
+
+使用 EventEmitter 时, event.emit(type) 将同步出发改事件上注册的所有 listener 回调函数, 因此, 此时回调中如果由异常, 将传递到调用 emit() 方法的位置.     
+这种情况可以使用 setImmediat() 或 nexTick() 方法解决, 即将 event.emit(type) 语句放入到 setImmediat 或 nexTick 中执行. 
+
+Promise 对于Promise 对象, 如果没有给定 reject 的函数, 则一旦执行中出现异常, 异常将被吞掉. 
+
+
 
 
