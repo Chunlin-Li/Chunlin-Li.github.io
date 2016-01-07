@@ -67,3 +67,10 @@ index 可以不连续, 可以是字符串, array 不需要声明 不需要初始
 可以使用 asort 函数对数组元素排序 :   
 
 
+
+## 参考资料
+
+[The GNU Awk User’s Guide](https://www.gnu.org/software/gawk/manual/html_node/index.html#SEC_Contents)   
+[Sed and Awk 101 Hacks](http://www.thegeekstuff.com/sed-awk-101-hacks-ebook/)   
+
+
