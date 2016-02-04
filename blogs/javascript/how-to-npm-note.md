@@ -106,5 +106,7 @@ npm install [folder]
 npm 用户配置文件位置:  `~/.npmrc` . 直接将需要覆盖的配置项写在其中即可
 
 
+[gist](https://gist.github.com/Chunlin-Li/fac7a8ac85741fc78014)
+
 
 > Written with [StackEdit](https://stackedit.io/).
