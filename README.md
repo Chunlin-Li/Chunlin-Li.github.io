@@ -23,6 +23,8 @@
 
 [Google Chrome V8 Embedder's Guide (中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Embedder's_Guide_CHS.md)
 
+[Google Chrome V8 设计元素(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Design_Elements_CHS.md)
+
 -------------------------------
 
 ### 数据库相关
