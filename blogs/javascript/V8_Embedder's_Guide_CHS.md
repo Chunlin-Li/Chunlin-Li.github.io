@@ -80,7 +80,7 @@ _**Note**: Throughout this document the term handle refers to a local handle, wh
 
 It is important to be aware of one common pitfall with this model: you cannot return a local handle directly from a function that declares a handle scope. If you do the local handle you're trying to return will end up being deleted by the handle scope's destructor immediately before the function returns. The proper way to return a local handle is construct an EscapableHandleScope instead of a HandleScope and to call the Escape method on the handle scope, passing in the handle whose value you want to return. Here's an example of how that works in practice:
 
-```
+```cpp
 // This function returns a new array with three elements, x, y, and z.
 // 该函数返回一个新数组, 其中包含 x, y, z 三个元素
 Local<Array> NewPointArray(int x, int y, int z) {
@@ -176,7 +176,7 @@ Each function template has an associated object template. This is used to config
 
 The following code provides an example of creating a template for the global object and setting the built-in global functions.
 
-```
+```cpp
 // Create a template for the global object and set the
 // built-in global functions.
 // 为 global 对象创建一个 template 并设置内建全局函数
@@ -217,7 +217,7 @@ Let's say there are two C++ integer variables, x and y that are to be made avail
 
 > 假设有两个 C++ 整数变量 x 和 y, 要让他它们可以在 JS 中通过 global 对象进行访问. 我们需要在 JS 代码读写这些变量的时候调用相应的 C++ 存取器函数. 这些存取函数将一个 C++ 整数通过 `Integer::New` 转换成 JS 整数, 并将 JS 整数转换成32位 C++ 整数. 来看下面的例子: 
 
-```
+```cpp
   void XGetter(Local<String> property,
                 const PropertyCallbackInfo<Value>& info) {
     info.GetReturnValue().Set(x);
@@ -246,7 +246,7 @@ In the preceding example the variables were static and global. What if the data 
 
 > 在前一个例子中, 变量是静态全局的, 那么如果是一个动态操纵的呢? 比如用于标记一个 DOM 树是否在浏览器中的变量? 我们假设 x 和 y 是 C++ 类 Point 上的成员: 
 
-```
+```javascript
   class Point {
    public:
     Point(int x, int y) : x_(x), y_(y) { }
@@ -277,7 +277,7 @@ Add the x and y accessors to the template:
 >      
 > 将 x 和 y 存取器添加到 template 上:     
 
-```
+```cpp
   point_templ.SetAccessor(String::NewFromUtf8(isolate, "x"), GetPointX, SetPointX);
   point_templ.SetAccessor(String::NewFromUtf8(isolate, "y"), GetPointY, SetPointY);
 ```
@@ -286,7 +286,7 @@ Next, wrap a C++ point by creating a new instance of the template and then setti
 
 > 接下来通过创建一个新的 template 实例来封装一个 C++ point, 将封装对象的 interanl field 设置为 0.
 
-```
+```cpp
   Point* p = ...;
   Local<Object> obj = point_templ->NewInstance();
   obj->SetInternalField(0, External::New(isolate, p));
@@ -299,7 +299,7 @@ Here's the definition of the get and set accessors for x, the y accessor definit
 > 以上代码中, 外部对象就是一个 void* 的封装体. 外部对象只能用来在 internal field 上存储引用值. JS 对象无法直接引用 C++ 对象, 因此可以将外部值当作是一个从 JS 到 C++ 的桥梁. 从这种意义上来说, 外部值是和 handle 相对的概念( handle 是 C++ 到 JS 对象的引用 ).    
 > 以下是 x 的存取器的定义, y 的和 x 一样.
 
-```
+```cpp
   void GetPointX(Local<String> property,
                  const PropertyCallbackInfo<Value>& info) {
     Local<Object> self = info.Holder();
@@ -338,14 +338,14 @@ The sample `process.cc`, provided with the V8 source code, includes an example o
 >      
 >  V8 源码 process.cc 的代码中, 包含了一个使用 interceptor 的例子. 在下面的代码片段中, `SetNamedPropertyHandler` 指定了 `MapGet` 和 `MapSet` 两个 interceptor:      
 
-``` 
+``` cpp
 Local<ObjectTemplate> result = ObjectTemplate::New(isolate);
 result->SetNamedPropertyHandler(MapGet, MapSet);
 ```
 
 The MapGet interceptor is provided below:
 
-```
+```cpp
 void JsHttpRequestProcessor::MapGet(Local<String> name,
                                     const PropertyCallbackInfo<Value>& info) {
   // Fetch the map wrapped by this object.
@@ -405,7 +405,7 @@ You can catch exceptions with TryCatch, for example:
 >      
 > 我们也可以像以下示例一样 Try Catch 代码中发生的异常:     
 
-```
+```cpp
   TryCatch trycatch(isolate);
   Local<Value> v = script->Run();
   if (v.IsEmpty()) {
@@ -430,7 +430,7 @@ Class-based object-oriented languages, such as Java and C++, are founded on the 
 
 > 基于类的面向对象编程语言, 比如 C++ 和 Java, 是建立在两种完全不同实体的概念上的: 类和实例. 而 JS 是基于原型的语言, 因此没有这些区别, 它只有对象. JS 本身并不原生支持 类这个层级的声明; 然而, 它的原型机制简化了给对象实例添加自定义属性或方法的过程. 在 JS 中, 你可以像以下代码这样给对象添加属性: 
 
-```
+```javascript
 // Create an object "bicycle" 
 function bicycle(){ 
 } 
@@ -448,7 +448,7 @@ Sometimes this is exactly what is required, at other times it would be helpful t
 >        
 > 有时这正是我们所需要的, 但有时我们希望将属性添加到所有这些实例上去, 这是 JS 的 prototype 对象就派上用处了. 为了使用原型对象, 可以通过 prototype 关键词访问对象原型, 然后在它上面添加自定义的属性: 
 
-```
+```javascript
 // First, create the "bicycle" object
 function bicycle(){ 
 }
@@ -464,7 +464,7 @@ The same approach is used in V8 with templates. Each FunctionTemplate has a Prot
 >      
 > V8 通过 template 可以使用同样的方法. 每个 `FunctionTemplate` 都有一个 `PrototypeTemplate` 方法可以返回该函数的原型. 我们可以给它设置属性, 也可以将 C++ 函数关联到这些属性, 然后所有该 FunctionTemplate 对应的实例上都将有这些属性和对应的值或函数: 
 
-```
+```cpp
  Local<FunctionTemplate> biketemplate = FunctionTemplate::New(isolate);
  biketemplate->PrototypeTemplate().Set(
      String::NewFromUtf8(isolate, "wheels"),
@@ -480,12 +480,13 @@ V8's FunctionTemplate class provides the public member function Inherit() which 
 >         
 > V8 的 FunctionTemplate 类提供了公共的成员函数 `Inherit()`, 当我们希望当前 function template 继承另外一个 function template 的时候可以调用该方法: 
 
-```
+```cpp
 void Inherit(Local<FunctionTemplate> parent);
 ```
 
 Google 原文更新日期: 六月 16, 2015
 
 > [V8 设计元素](https://developers.google.com/v8/design)     
+> [V8 设计元素(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Design_Elements_CHS.md)     
 > [入门指南](https://developers.google.com/v8/get_started)    
 
