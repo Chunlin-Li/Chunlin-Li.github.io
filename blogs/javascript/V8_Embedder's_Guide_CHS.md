@@ -485,3 +485,7 @@ void Inherit(Local<FunctionTemplate> parent);
 ```
 
 Google 原文更新日期: 六月 16, 2015
+
+> [V8 设计元素](https://developers.google.com/v8/design)     
+> [入门指南](https://developers.google.com/v8/get_started)    
+
