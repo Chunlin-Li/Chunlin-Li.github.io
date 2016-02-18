@@ -1,21 +1,11 @@
 目录
 -----
 
-### Java 相关
-
-[Java Server 性能监控和分析](blogs/java/java-server-perf.md)
-
-[Java 测试](blogs/java/java-test.md)
-
-----------------------------
-
 ### Nodejs / Javascript 相关
 
 [node/javascript 性能benchmark](blogs/javascript/node_performance_benchmark.md)
 
-[Node Express Server 开发笔记](blogs/javascript/express-server-notes.md)
-
-[**_深入浅出 Node.js  -- 朴灵_** 读书笔记 ](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/shenruqianchu-nodejs.md)
+[深入浅出Node.js笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/shenruqianchu-nodejs.md)
 
 [Elevator Saga 电梯解决方案](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/elevator-saga.md)
 
@@ -31,7 +21,7 @@
 
 [MongoDB The Definitive Guide 学习笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/db/mongodb-definitive-guide-notes.md)
 
-[NOSQL DATA MODELING TECHNIQUES](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/db/nosql-data-modeling-techniques-translate.md)
+[NOSQL DATA MODELING TECHNIQUES (中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/db/nosql-data-modeling-techniques-translate.md)
 
 [MongoDB 3.0 配置方法](blogs/db/mongo-yaml-config.md)
 
@@ -52,5 +42,11 @@
 [awk 的使用](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/awk.md)
 
 ---------------------------
+
+### Java 相关
+
+[Java Server 性能监控和分析](blogs/java/java-server-perf.md)
+
+[Java 测试](blogs/java/java-test.md)
 
 
