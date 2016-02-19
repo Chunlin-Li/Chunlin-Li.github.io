@@ -35,3 +35,30 @@ array 的 `.filter()` 和 `.map()` 的操作中, 存在性能陷阱.
 上依然是 for 循环, 多出的开销可能来自于需要对每个元素进行一次额外的函数调用. 因此 for 循环依然是最快的方式.
    
 for 的性能是 filter 的 10倍左右 (全部返回 True), forEach 的性能是 filter 的 2倍多.
+
+----------------------------
+
+将一个字符串解码成 Buffer 的效率:  (i7 PC ubuntu 64bit)     
+6000 长度日志字符传, New Buffer(str) 10000 次:   66ms
+300 长度日志字符传, New Buffer(str) 10000 次:   22ms
+
+-----------------------------
+
+有时会遇到频繁处理 JSON 对象和字符串的转换, 但事实上某些情况下可以优化:    
+
+场景如下:     
+输入参数1 是一个 6KB 左右的 JSON 字符串; 输入参数2 是一个可大可小的 JSON 字符串;     
+输出是给 JSON1 添加一个 Key/Value, Value 是 JSON2, 并序列化为字符串.
+
+传统做法:
+
+```javascript
+j1 = JSON.parse(json1)
+j2 = JSON.parse(json2)
+j1['xxx'] = j2;
+JSON.stringify(j1);
+```
+
+优化:  不使用 JSON.parse 和 stringify. 而直接操作字符串, `json1.replace(/}$/, json2)`    
+
+测试显示性能提升为100多倍!.  其他更复杂的 字符串方式的 JSON 编辑方式抽空再研究研究.
