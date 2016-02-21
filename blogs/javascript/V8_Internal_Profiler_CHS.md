@@ -1,6 +1,8 @@
-Profile your web application with V8’s internal profiler (使用 V8 的内部分析器分析 web 应用)
+Profile your web application with V8’s internal profiler 
 ========================
-> Chunlin Li 译
+## 使用 V8 的内部分析器优化 web 应用
+
+> Chunlin Li 译        
 > 原文 : [https://developers.google.com/v8/profiler_example](https://developers.google.com/v8/profiler_example)
 
 Today's highly optimized virtual machines can run web apps at blazing speed. But one shouldn't rely only on them to achieve great performances: a carefully optimized algorithm or a less expensive function can often reach many-fold speed improvements on all browsers. Chrome Developer Tool’s CPU Profiler helps you analyze your code bottlenecks. But sometimes, you need to go deeper and more granular: this is where V8's internal profiler comes in handy.
@@ -11,8 +13,8 @@ Let’s use that profiler to examine the [Mandelbrot explorer demo](http://ie.mi
 
 But what if you want the code to run faster on all browsers? You should first understand what keeps your CPU busy. Run Chrome (Windows and Linux Canary) with the following command line switches, which will cause it to output profiler tick information (in the v8.log file) for the URL you specify, which in our case was a local version of the Mandelbrot demo without web workers:
 
-> 我们来使用分析器来检验一下 [Mandelbrot expolorer demo](http://ie.microsoft.com/testdrive/performance/mandelbrotexplorer/), 它是同微软的 IE10 一共发布的. 这个 demo 发布后, V8 修正了一个 bug, 它使得运算变慢(其实是不必要的), 并且对 V8 引擎做了更进一步的优化, 实现了比标准系统库更快的 `exp()` 近似计算. 随着这些优化, 该 demo 在新的 chrom 中的运行速度比以前快了 8 倍.
->
+> 我们来使用分析器来检验一下 [Mandelbrot expolorer demo](http://ie.microsoft.com/testdrive/performance/mandelbrotexplorer/), 它是同微软的 IE10 一共发布的. 这个 demo 发布后, V8 修正了一个 bug, 它使得运算变慢(其实是不必要的), 并且对 V8 引擎做了更进一步的优化, 实现了比标准系统库更快的 `exp()` 近似计算. 随着这些优化, 该 demo 在新的 chrom 中的运行速度比以前快了 8 倍.     
+>     
 > 但如果你想让代码在所有浏览器上都运行的更快该怎么办呢?  你应该先找出是什么过度占用了 CPU. 添加以下参数并启动 chrome 将会输出打开的页面的分析器时间片信息. 我们在下面的例子中将打开一个 Mandelbrot demo 不带 web worker 的本地版本:
 
 ```
@@ -25,7 +27,7 @@ When preparing the test case, make sure it begins its work immediately upon load
 
 Then, process the v8.log file with the [tick-processor](http://code.google.com/p/v8-wiki/wiki/V8Profiler#Process_the_Generated_Output) script that ships with V8 (or the new practical [web version](http://v8.googlecode.com/svn/trunk/tools/tick-processor.html)):
 
-> 准备测试用例的时候需要注意, 要让程序在加载后立即开始执行, 计算结束后直接关闭 Chrome 即可, 这样可以使结果尽量准确. 另外需要注意, web work 目前还不能使用该方法得到正确的分析结果.
+> 准备测试用例的时候需要注意, 要让程序在加载后立即开始执行, 计算结束后直接关闭 Chrome 即可, 这样可以使结果尽量准确. 另外需要注意, web work 目前还不能使用该方法得到正确的分析结果.    
 > 然后需要使用 v8 中自带的 tick-processor 脚本来处理一下 `v8.log` 文件. 或者可以使用 [web 工具](http://v8.googlecode.com/svn/trunk/tools/tick-processor.html)
 
 ```
@@ -74,10 +76,10 @@ If you look at the JavaScript code, you’ll see that exp() is used solely to pr
 
 You’ll notice that exp() is called with an argument in the range -4 < x < 0, so we can safely replace it with its Taylor approximation for that range, which will deliver the same smooth gradient with only a multiplication and a couple of divisions:
 
-> 你也许注意到 `exp()` 的调用实参范围是 -4 < x < 0, 我们大可直接使用泰勒逼近这个范围, 这样我们只需要一个乘法和两个除法计算即可产生同样平滑的梯度:
+> 你也许注意到 `exp()` 的调用实参范围是 -4 < x < 0, 我们大可直接使用泰勒逼近这个范围, 这样我们只需要一个乘法和两个除法计算即可产生同样平滑的梯度: 
 
 ```
-exp(x) ≈ 1 / ( 1 - x + x*x / 2) for -4 < x < 0
+exp(x) ≈ 1 / ( 1 - x + x*x / 2) for -4 < x < 0 
 ```
 
 Tweaking the algorithm this way boosts the performance by an extra 30% compared to latest Canary and 5x to the system library based Math.exp() on Chrome Canary.
@@ -90,7 +92,7 @@ This example shows how V8’s internal profiler can help you go deeper into unde
 
 To compare VM performances that represents today’s complex and demanding web applications, one might also want to consider a more comprehensive set of benchmarks such as the [Octane Javascript Benchmark Suite](http://octane-benchmark.googlecode.com/svn/latest/index.html).
 
-> 这个例子为我们揭示了 V8 内部分析器如何帮我们从更深的层次去理解我们代码中的瓶颈, 也为我们展示了更好的算法是如何提高性能的.
+> 这个例子为我们揭示了 V8 内部分析器如何帮我们从更深的层次去理解我们代码中的瓶颈, 也为我们展示了更好的算法是如何提高性能的.       
 > 对比两个代表当今 Web 应用的复杂性和需求的程序在 VM 中执行的性能, 我们可能还需要参考更加全面的基准测试系统, 比如[Octane Javascript 基准测试套件](http://octane-benchmark.googlecode.com/svn/latest/index.html).
 
 Google 原文更新于 二月 26, 2015
