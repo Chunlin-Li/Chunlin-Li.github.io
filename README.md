@@ -15,6 +15,8 @@
 
 [Google Chrome V8 Design Elements(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Design_Elements_CHS.md)
 
+[V8 Internal Profiler(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Internal_Profiler_CHS.md)
+
 -------------------------------
 
 ### 数据库相关
