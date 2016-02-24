@@ -43,6 +43,8 @@
 
 [awk 的使用](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/awk.md)
 
+[bash script](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/bash-script.md)
+
 ---------------------------
 
 ### Java 相关

@@ -39,7 +39,7 @@ for 的性能是 filter 的 10倍左右 (全部返回 True), forEach 的性能�
 ----------------------------
 
 将一个字符串解码成 Buffer 的效率:  (i7 PC ubuntu 64bit)     
-6000 长度日志字符传, New Buffer(str) 10000 次:   66ms
+6000 长度日志字符传, New Buffer(str) 10000 次:   66ms            
 300 长度日志字符传, New Buffer(str) 10000 次:   22ms
 
 -----------------------------
@@ -62,3 +62,19 @@ JSON.stringify(j1);
 优化:  不使用 JSON.parse 和 stringify. 而直接操作字符串, `json1.replace(/}$/, json2)`    
 
 测试显示性能提升为100多倍!.  其他更复杂的 字符串方式的 JSON 编辑方式抽空再研究研究.
+
+-----------------------------
+
+测试 [node-murmurhash3](https://github.com/hideo55/node-murmurhash3) 和 [mumuhash-js](https://github.com/garycourt/murmurhash-js)    
+
+前者使用 C++ 实现, 后者使用纯 js 实现. 
+
+前者支持异步和同步两种 API, 后者只支持同步方式.
+
+理论上来说, 我们预期 C++ 实现的会更快, 而其中, 异步接口会比同步的更快(这里指更快发出而不考虑返回). 
+
+然而实测的情况却是: js 实现 1000 ms, C++ 同步实现 400ms, C++ 异步实现 4000ms.  结果非常意外.
+
+看了下 C++ 的源码, 每次异步调用的时候都需要 new 一个 AsyncWorker 对象(用来封装异步操作), 而同步方法则直接调用 C++ 函数返回 hash 值. 可能速度是满在了这里.
+ 
+ 
