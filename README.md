@@ -7,15 +7,15 @@
 
 [深入浅出Node.js笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/shenruqianchu-nodejs.md)
 
-[Elevator Saga 电梯解决方案](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/elevator-saga.md)
-
-[how-to-npm: npm 简易教程](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/how-to-npm-note.md)
-
 [Google Chrome V8 Embedder's Guide (中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Embedder's_Guide_CHS.md)
 
 [Google Chrome V8 Design Elements(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Design_Elements_CHS.md)
 
 [V8 Internal Profiler(中文)](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/V8_Internal_Profiler_CHS.md)
+
+[how-to-npm: npm 简易教程](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/how-to-npm-note.md)
+
+[Elevator Saga 电梯解决方案](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/elevator-saga.md)
 
 -------------------------------
 
@@ -31,6 +31,12 @@
 
 ### Linux 相关
 
+[bash script](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/bash-script.md)
+
+[awk 的使用](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/awk.md)
+
+[linux 笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/linux-notes.md)
+
 [ShadowSocks 代理转 HTTP 代理的方法](blogs/linux/polipo.md)
 
 [Ubuntu 14.04 下通过 XKB 修改键盘映射, 实现自定义按键](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/ubuntu-xkb-keyboard-remap.md)
@@ -41,9 +47,6 @@
 
 [我的 Ubuntu 系统配置](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/my-ubuntu-install-config.md)
 
-[awk 的使用](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/awk.md)
-
-[bash script](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/bash-script.md)
 
 ---------------------------
 
