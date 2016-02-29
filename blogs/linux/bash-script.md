@@ -32,12 +32,16 @@ let "c = a + b"
 
 ```
 myString=abc=123
-IFS="=" read -a splitArray <<< "$myString"
+IFS="=" read -ar splitArray <<< "$myString"
 # 关于 <<< 的使用可以参考 ABS 中的 here string
 echo ${splitArray[@]}   # abc 123
 echo ${splitArray[0]}   # abc
 echo ${aplitArray[1]}   # 123
 ```
+
+注意: read 后的参数 -r 是 bash 的一个特殊参数, 用于开启[严格模式](http://linux.die.net/man/1/bash#restricted_shell).     
+
+曾遇到的问题: 如果不加该参数, 从文件中读到的 `\` 符会被忽略.
 
 --------------------------------
 
