@@ -96,3 +96,47 @@ Promise 对于Promise 对象, 如果没有给定 reject 的函数, 则一旦执�
 
 ### 堆内存限制
 Node js 中 Buffer 本身不占用堆内存, 但是每个Buffer对象都要消耗 100多B的堆内存, 因此, 单个进程中总 Buffer 的个数有个上限, 大概 1千万就块到头了.   其他的对象也是用样道理, 只是其他数据不会有太多的元数据.
+
+
+
+### node 中无法捕获的异常
+
+现象: 
+
+```
+ 错误信息:  { [Error: read ECONNRESET] code: 'ECONNRESET', errno: 'ECONNRESET', syscall: 'read' }
+ stack 信息: 
+    at errnoException (....)
+    at TCP.onread (....)
+ 代码的具体位置不同版本之间会有差异.
+```
+
+我们可能遇到的是这种出错的一种情况, 需要满足条件:
+* 版本 4.0.0 - 4.3.1 以及对应的　5.x 的版本。　0.x 的版本没有测试.
+* 使用内建 http 模块发送请求, 并且使用带 keep-alive 的 agent. `var agent = new http.Agent({keepAlive: true})`
+* 在请求量较大的情况下, 不时出现上述的错误信息, 并且无法通过给 clientRequest, IncomingMessage 等 API 提供的结构捕获或监听到这些异常.
+
+结论: 通过排查测试和参考 github 上的相关讨论最终找到问题: nodejs 对于 agent 中 keep alive 的 TCP 链接池管理上有 Bug,     
+ 在某些存在竞态的地方可能会造成 socket 上没有 error 的 listener, 当 socket 被远端断开的时候, 本地无法正常处理该异常音系, 导致进程 crash.    
+ 因此, 可以使用如下方式监听该 error 事件: 
+```
+var agent = new http.Agent({keepAlive: true});
+agent.on('free', function(socket) {
+    socket.on('error', function(err) {
+        // do something .... 
+    })
+})
+```
+这样就可以保证所有的 socket 的错误事件都可以被正常捕获并处理了.
+
+
+在对该问题的排查中, 涉及到一些之前不了解的知识和技能: 
+
+1. 目前版本 (4.3.1) http.globalAgent 中的 keep Alive 是默认关闭的. 如果请求没有指定 agent ,则默认使用 globalAgent.
+2. http 相应的 response 中, 如果不监听 'data' 和 'end' 事件, 该 http 请求无法正常完成并 free 连接, 会导致后续针对同一个 Socket 
+    的 http 请求无法重用 agent 中的连接.  // TODO: 需要找出原因
+3. 正常 http 通信的数据交换是接收方读 Socket 的数据, 而 TCP 连接上的异常状态则是通过触发 TCP.onread 来处理的. Exxxxx 的错误码是来自于
+    libuv 中的 err_name 定义.
+4. http 的 clientRequest 是继承了 net 中的 Socket. 但是 http 的 Server 并不继承或组合 Socket, 而是由 TCP handle 来处理三层的工作.
+5. NODE_DEBUG 环境变量
+6. tcpkill 工具
