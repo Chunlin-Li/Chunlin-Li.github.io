@@ -99,6 +99,7 @@ fcitx-config-gtk3
 # 配置项路径 : 
 # Global Config --> Show Advance Option --> Switch Full Width Character Mode
 ```
+如果以上方式配置后还不行, 可以编辑 default.yaml 文件,在 `key_binder -> bindings` 中找到 full shape 的那行, 用 `#` 将其注释掉. 这样你的你自己的方案中导入的 default.yaml 就没有这个快捷键了. 当然, 可能你需要重新 Deplooy 一下输入法.
 
 * 删掉方案列表中对我没有用的输入方案
 
