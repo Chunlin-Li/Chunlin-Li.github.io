@@ -17,6 +17,8 @@
 
 [Elevator Saga 电梯解决方案](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/elevator-saga.md)
 
+[Node Debug 纪实](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/node_debug_notes.md)
+
 -------------------------------
 
 ### 数据库相关
