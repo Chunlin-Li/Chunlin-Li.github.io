@@ -114,3 +114,8 @@ linux 下 `kill PID` 是 SIGTERM 信号,  ctrl + C 是 SIGINT 信号
 
 这些信号都需要用 `process([SIGNAL], function(){})` 的方式捕捉. 注意 SIGKILL 是无法捕获的. 
 
+
+
+### 为什么 Node 在可用内存比较小的环境下, 回陷入性能和内存消耗的恶性循环? 
+
+### 为什么 http client 在注册了 response 事件的情况下, 必须也同时注册 data 和 end 事件? 
