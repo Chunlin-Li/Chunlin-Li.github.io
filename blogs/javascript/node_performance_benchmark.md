@@ -44,6 +44,8 @@ for 的性能是 filter 的 10倍左右 (全部返回 True), forEach 的性能�
 
 -----------------------------
 
+#### JSON 字符串和 Object 相关
+
 有时会遇到频繁处理 JSON 对象和字符串的转换, 但事实上某些情况下可以优化:    
 
 场景如下:     
@@ -63,6 +65,16 @@ JSON.stringify(j1);
 
 测试显示性能提升为100多倍!.  其他更复杂的 字符串方式的 JSON 编辑方式抽空再研究研究.
 
+
+**补充**  
+实际工作中有时需要从一个可能很大的 JSON 字符串(KB 以上)中, 读取一两个字段用于判断, 比如 returnCode, error, writeOK 等. 而多数情况下不需要
+解析完整的 JSON. 此时可以使用正则捕获的方式, 可以将效率提高近 100 倍.    
+但是注意, 如果 JSON 中有重复的字段名, 则不能使用该方法, 除非根据上下文额外的符号可以区分.   
+
+例: 用 `/"return":"(\w+)"/.exec(jsonString)[1]` 代替 `JSON.parse(jsonString).return` 
+
+对于核心业务中的高频代码片段进行这样的优化还是能收到不错的效果的.
+
 -----------------------------
 
 测试 [node-murmurhash3](https://github.com/hideo55/node-murmurhash3) 和 [mumuhash-js](https://github.com/garycourt/murmurhash-js)    
@@ -77,4 +89,4 @@ JSON.stringify(j1);
 
 看了下 C++ 的源码, 每次异步调用的时候都需要 new 一个 AsyncWorker 对象(用来封装异步操作), 而同步方法则直接调用 C++ 函数返回 hash 值. 可能速度是满在了这里.
  
- 
+------------------------------
