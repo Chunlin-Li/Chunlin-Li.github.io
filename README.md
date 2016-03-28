@@ -3,6 +3,8 @@
 
 ### Nodejs / Javascript 相关
 
+[我的 js 代码片段](https://github.com/Chunlin-Li/my-js-snippet)
+
 [node/javascript 性能benchmark](blogs/javascript/node_performance_benchmark.md)
 
 [深入浅出Node.js笔记](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/javascript/shenruqianchu-nodejs.md)
@@ -55,6 +57,8 @@
 ### Java 相关
 
 [ElasticSearch Mapping](blogs/java/elasticsearch_mapping.md)
+
+[使用 ElasticSearch 处理日志信息](blogs/java/elasticsearch_log.md)
 
 [Java Server 性能监控和分析](blogs/java/java-server-perf.md)
 
