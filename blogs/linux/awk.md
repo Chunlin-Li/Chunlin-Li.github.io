@@ -67,6 +67,27 @@ index 可以不连续, 可以是字符串, array 不需要声明 不需要初始
 可以使用 asort 函数对数组元素排序 :   
 
 
+# 常用 awk build-in 函数
+
+## 字符串函数 
+
+字符串处理, 主要有
+ 
+* `asort()`: 对 array 中的 element 排序, index 转为自然数
+* `asorti()`: 同上, 但是排序的是 index, 排序后成为结果中的 element.
+* `gensub()`: 子串替换.比 gsub() 和 sub() 功能更强
+* `index()`: 查找子串的 index 
+* `length()`: 字符串长度
+* **`match()`**: 查找匹配正则的字符串的 index. 如果指定 arr 参数, arr[0] 是所匹配到的完整字符串, arr[N] 是第N个分组捕获的字符串
+通过arr[N, "start"] 和 [N, "length"] 分别可以取得分组的起始 index 和长度.
+* `patsplit()`: 字符串 split , 支持正则. `split()` 不支持正则.
+* `strtonum()`: 字符串转数字
+* `substr()`: 通过 start 和 length 两个参数获取子串. start 从1开始
+* `tolowr() / toupper()`: 转大小写
+
+[文档](https://www.gnu.org/software/gawk/manual/html_node/String-Functions.html#String-Functions)
+
+
 
 ## 参考资料
 
@@ -74,3 +95,20 @@ index 可以不连续, 可以是字符串, array 不需要声明 不需要初始
 [Sed and Awk 101 Hacks](http://www.thegeekstuff.com/sed-awk-101-hacks-ebook/)   
 
 
+-------------------------------------
+
+### 从文件 B 中找到所有含有文件 A 中提供的 pattern/id 的行
+
+
+```
+{
+  if(FNR==NR) {       
+    list[$1] = 1      # 载入文件A中的所有id
+  } else {
+    match($0, /"id":"([^"]+)/, arr);    # 对文件B的每一行提取目标字符串到 arr 中
+    if (arr[1] != "" && arr[1] in list) {   # 如果提取成功, 且提取到的 id 存在于文件A中, 则输出当前行
+        print $0      
+    }
+  }
+}
+```
