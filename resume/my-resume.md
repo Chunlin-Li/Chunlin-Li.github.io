@@ -21,20 +21,25 @@
 
 ### 主技能
 
- * javascript (node.js)
+ * javascript/ node.js (2015-2016)
 	 * 掌握 javascript 语言, 熟练使用 Node JS 内建 API 
 	 * 了解 Chrome V8 引擎, 有一定的性能调优经验
 	 * 熟悉大部分 ES6 特性. 了解 OO 编程, 了解函数式编程 
 	 * 较熟练的服务端 Node 开发经验, 有一定的浏览器端的 js 原生/jQuery开发经验.
-	 * 有自己做的开源 package: big-map. [git](https://github.com/Chunlin-Li/BigMap) / [npm](https://www.npmjs.com/package/big-map) 
+	 * 有自己做的开源 package: big-map. [git](https://github.com/Chunlin-Li/BigMap) / [npm](https://www.npmjs.com/package/big-map)
+	 * 留下了一些 Node.js 相关的工作和学习笔记, 代码片段, 文档翻译等. [github链接](https://chunlin-li.github.io)
 
- * Linux
+ * Linux (2011-2016)
 	 * 全 Linux 环境(PC/NoteBook/VPS/Server), Debian / Ubuntu 系
 	 * 熟悉常见服务的部署, 以及其他系统管理工作 
-	 * 用过一小端时间的 UNIX (FressBSD), 但未深入研究
+	 * 用过一小段时间的 UNIX (FressBSD), 但未深入研究
 	 * 熟悉 Bash Shell 脚本, 会使用 sed, awk, xargs 等主要工具
 
- * MongoDB
+ * ElasticSearch (2016)
+     * 使用 ElasticSearch 进行日志的管理, 在此基础上进行多维度的数据统计
+     * 可以独立完成 ES 的部署, 调优, Mapping 模板编写, Search DSL编写等工作 
+
+ * MongoDB (2014-2016)
 	 * 熟悉各种查找, 更新方式, 熟悉 Mongo 索引.
 	 * 理解去范式化的 NoSql 数据模型设计思想, 翻译过相关的技术文章 [[此处链接]](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/db/nosql-data-modeling-techniques-translate.md).
 	 * 理解 MongoDB 复制集的工作原理及配置, 了解 MongoDB 数据库集群的构建原理和方式.
@@ -42,7 +47,7 @@
 	 * 熟练使用多种 Client Driver, 包括 java, python, javascript.
 	 * 熟练使用 Mongo 自带的命令行客户端,  以及 MongoVUE, RoboMongo 等GUI工具
 
- * Java
+ * Java (2014-2015)
 	 * 有一定的 Java SE 功底, 异常处理, 多线程都是比较熟悉的部分.   
 	 * 了解 JVM, 做过内存方面的性能监控和分析, 会使用 jmap, jstack 等工具
 	 * 构建过一些相对简单的项目框架.
@@ -108,9 +113,10 @@
 
 ## 工作经历
 
-* 北京光音网络 | 全栈工程师 | (2015.10 - 目前)
+* 北京光音网络 | Node.js工程师 | (2015.10 - 目前)
 
- * 广告家业务线, 实时竞价后端 Node 开发与维护, 日志模块和数据分析系统开发维护
+ * 广告家业务线, 实时竞价后端 Node 开发与维护. Exchange 服务的部分重构和性能优化, Debug, NSQ日志导出等. 
+ * 独立进行日志和数据分析系统开发维护. NSQ -> Nodejs -> fs archive -> ElasticSearch -> Mongodb.
 
 
 * 北京乐度科技文化有限公司 | 打杂程序员 | (2014.07 - 2015.10 )     
@@ -120,11 +126,12 @@
  * 主导社区的后台重构, 代码优化, 技术调研等.
  * 负责上述应用的内部运营管理平台的全栈开发, 参与 APP的数据统计系统的开发.
  * 参与阿里云主机 Linux 服务器的运维管理, 服务器部署工作.
- * 主导图片系统向又拍云的迁移重构, 参与即时通讯系统向环信的迁移重构.
+ * 主导图片系统向又拍云CDN的迁移重构, 参与即时通讯系统向环信的迁移重构.
  * 公司唯一的 Web 前端工程师. APP 中 Web View 页面, 社区分享,  活动推广等页面的前端开发
 
 * 曙光信息产业(北京)有限公司 | 集成测试工程师/集成测试项目经理 | (2011.07 - 2013.07)    
 服务器硬件的集成测试与产品化; 测试工具与测试用例研发
+
  * 对 CPU, 内存, 磁盘, 网络等服务器重要子系统有较为深入的理解
  * 熟悉服务器硬件集群, 有过大量的实际操作和部署经验
  * 按项目计划制定测试用例, 推进产品化进程. 本人主导并顺利上市的产品项目: TC3600刀片服务器, TC4600刀片服务器升级, I840-G10机架服务器.

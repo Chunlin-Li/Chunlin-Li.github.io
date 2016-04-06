@@ -36,6 +36,31 @@ ES 的一大特点就是非常易于入门使用, 没有复杂的配置部署过
 
 -------------------------------------
 
+#### 关于 JVM 和 elasticsearch.yml 的设置
+
+生产环境常常遇到大内存, 大磁盘的环境. 需要对 JVM 和 elasticsearch 的相关参数进行谨慎的调优, 才能尽可能的发挥出它的性能来.
+
+**内存**
+
+* 默认的 HeapSize 是 1G, 所以如果要上线一定要记得改 `ES_HEAP_SIZE` 参数, 这是在 `elasticsearch/bin/elastsicsearch.in.sh` 中设置的
+* HEAP Size 最大不要超过 32G. 另外, 这个 ES_HEAP_SIZE 设置的只是 ES 的内存, 事实上, 其后的 Lucene 实例也需要内存的, 所以通常来说 ES_HEAP_SIZE 也不要超过 50% 的物理内存
+* 如果可以, 尽量关闭 swap, 或者打开 ES 的 `bootstrap.mlockall: true` 选项. 可能涉及一些权限问题, 通过查google或日志的提示进行设置修改.
+
+
+**磁盘**
+
+* 在 `elasticsearch.yml` 中可以设置 `path.data` 参数, 将多块磁盘都添加到其中.
+
+**scripting**
+
+ES 中支持多种脚本语言, 脚本可以在查询, 更新, 聚合等操作时使用, 详情见[官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html)   
+
+需要注意的是, 处于安全性考虑, 不是所有场合都可以使用所有类型的脚本语言. 因此, 如果有对 scripting 的特殊需要, 则需在 elasticsearch.yml 中进行相应的配置.    
+官方的文档里的介绍还算详细.可以仔细研究学习一下. 
+
+另外, 对于 update 操作中对 script 的使用, 还可以看这篇[文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html)
+
+
 #### Index 的 settings
 
 * 我们的日志数据不需要备份, 因为还会有一份压缩归档的.因此关闭 replica, 即将 `number_of_replicas` 设置为 0.
@@ -146,3 +171,4 @@ dynamic template 中的几个很有用的属性是: `match_mapping_type` `match`
 
 * `errors:true/false`: 表明这一批数据处理是否有出错的. 如果是 false 那就说明全部都成功了. 反之说明里面有错误的.
 * `items:[{},{}]`: 这个数据里的元素数和你发送给 bulk 的操作数是一致的, 并且一一对应. 通过检查这个巨大的数据, 可以找出所有出错的下标, 并且错误信息中会有错误类型和 reason 信息, 可以据此对错误进行分类统计和处理. 比如我们的业务中会对 create 失败的操作直接输出到一个单独的日志中, 而 update 失败的操作会挑出来修改参数后重试一次, 若再次失败才输出到单独的日志. 对于输出到日志的失败操作还可以再次使用另一个工具脚本进行离线的数据导入.
+ 

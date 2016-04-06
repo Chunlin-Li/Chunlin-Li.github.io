@@ -8,6 +8,8 @@ awk '{ code for each line } END { code for end }'
 
 awk '/regex for each line/ { code for each line } END { code for end }'
 
+awk '/regex1/ { code for regex1 } /regex2/ {code for regex2} END { code for end }'
+
 awk 'BEGIN { code before start } /regex for each line/ { code for each line } END { code for end }'
 
 awk '$1 ~ "hello"' 打印 $1 匹配正则表达式 "hello" 的行
