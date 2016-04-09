@@ -37,6 +37,21 @@ echo "regular expression - extract part of string using sed" |sed -n 's/.*- extr
 
 注意 sed 中正则表达式需完全匹配整行内容, 因此首尾的 `.*` 用来使 sed 能够正确匹配到目标行, 不能省略!
 
+
+
+**提取一行数据中的多个 IP** 
+
+```
+# data smaple: 
+# xxxxxxxxxxx"ip":"123.123.123.123"xxxxxxxxxxx"ip":"::ffff:123.123.123.123"xxxxxxxxxxxx"ip":"::ffff:123.123.123.123"
+
+sed -n 's/.*:"\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\)".*:\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\)".*:\([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\)".*/\1\t\2\t\3/p'
+
+# data output :
+# 123.123.123.123   123.123.123.123     123.123.123.123
+```
+
+
 ------------------------------------------
 
 #### 文本排序
@@ -194,4 +209,50 @@ mdadm --zero-superblock /dev/sdb1
 ```
 date --date="-N days" +"%Y-%m-%d"
 ```
+
+--------------------------
+
+#### 使用 apt 工具给 debian 7.3 升级内核
+
+
+debian 7.3 内核版本是 3.2 的, 不支持 docker. 为了能用 docker, 需要给它升级内核版本. 
+
+安装 7.3 后, /etc/apt/source.list 下的默认源似乎有问题, 执行 apt-get update 的时候会有 no public key 的错误提示.
+
+根据一些帖子的描述, 更换源可以解决该问题. 找到了 aliyun 的 debian 7 的源. :
+
+ 
+```
+# deb http://mirrors.aliyun.com/debian wheezy main
+# deb http://mirrors.aliyuncs.com/debian wheezy main
+
+deb http://mirrors.aliyun.com/debian wheezy main
+deb http://mirrors.aliyuncs.com/debian wheezy main
+deb-src http://mirrors.aliyun.com/debian wheezy main
+deb-src http://mirrors.aliyuncs.com/debian wheezy main
+
+deb http://security.debian.org/ wheezy/updates main
+deb-src http://security.debian.org/ wheezy/updates main
+
+# wheezy-updates, previously known as 'volatile'
+deb http://mirrors.aliyun.com/debian wheezy-updates main
+deb http://mirrors.aliyuncs.com/debian wheezy-updates main
+deb-src http://mirrors.aliyun.com/debian wheezy-updates main
+deb-src http://mirrors.aliyuncs.com/debian wheezy-updates main
+```
+
+使用了阿里的源后, 再次执行依然会报错, 需要执行 `apt-get install debian-keyring debian-archive-keyring` 后即可.
+
+通过 apt-cache search linux-image 找到了内核是 3.16 版本的. 根据[这篇文章](http://doduck.com/docker-install-on-debian-7/)
+的提示, 使用  `apt-get -t wheezy-backports install linux-image-amd64 -y` 命令更新了内核.
+然后 reboot 重启, 在 grub 界面下可以看到新旧两种内核, 选择新版本的进入, 一切正常没有问题.
+
+接下来按照 docker [官方文档](https://docs.docker.com/engine/installation/linux/debian/#debian-wheezy-stable-7-x-64-bit)的介绍进行安装即可
+
+
+
+
+
+
+
 
