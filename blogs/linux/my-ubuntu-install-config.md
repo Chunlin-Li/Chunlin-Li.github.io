@@ -1,7 +1,7 @@
 我的 Ubuntu 安装配置笔记
 ================
 
-## 安装 系统 Ubuntu 14.04.2 LTS 64bit
+## 安装 系统 Ubuntu 14.04.2 / 15.10 / 16.04 LTS 64bit
 
 下载镜像后, 将镜像写入到 U 盘中, 用U盘安装.
 > Windows 下可以下载使用 Win Disk Imager 工具来制作启动盘. 貌似 14.10 以上的版本不能使用UltraISO 制作启动盘了, 开机引导的时候会有问题的.
@@ -9,17 +9,31 @@
 
 安装时, 如果为了快一点, 可以跳过连接 WIFI 的那一步, 可以节省一些下载额外语言和包的时间. 这些可以安装完以后再手动安装. 
 
-如果安装的时候没有链接网络进行更新,  安装完成后, 最好先更新一下系统. 
+如果安装的时候没有链接网络进行更新,  安装完成后, 最好先更新一下系统.     
+
 System Settings  --> Details --> Overview --> Install Updates
+
+## 需要安装的工具:
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt-get install vim axel python-pip git polipo fcitx-rime ttf-wqy-microhei unity-tweak-tool guake
+sudo pip install shadowsocks
+```
 
 ## 完成安装后, 需要安装显卡驱动
 
 我自己的笔记本是 Nvidia GTX 850M, 如果不安装显卡驱动, 结果就是掌托部分可以煎蛋....
 
 安装驱动不使用官网下载的 xxxxx.run 格式的驱动, 直接使用 apt-get 搞定即可, 非常方便. 
+
 ```bash
 sudo apt-get install nvidia-331 nvidia-settings nvidia-prime
 ```
+还有一种方式, 我自己没有尝试过. (15.10/16.04 LTS)           
+打开 System Settings => Software&Updates => Aditional Drivers 中可以自动扫描到显卡的驱动, 选择进行安装即可. 
 
 重启后安装完成, 在 Launcher 中可以找到 nvidia 配置程序, 左边有一项 PRIME xxxx  进去直接切到 Intel 集显. 重启后一切OK. (我自己的目的是要关掉集显)
 
@@ -136,7 +150,7 @@ f --> Delete
 
 全部配置完之后, 保存.
 
-然后进入以下路径 : `/var/lib/xkb` , 将该路经下 所有的 .xkm 文件都删除.
+然后进入以下路径 : `/var/lib/xkb` , 将该路经下 所有的 .xkm 文件都删除. (对于 16.04 版本不需要这一步)
 然后 logout, 再重新登录到系统. 此时按键修改完成.
 
 参考资料 : 
@@ -150,40 +164,47 @@ f --> Delete
 ------------------------------------------------------
 
 ### 配置科学上网 :
-我自己习惯使用 shadowsocks, 因为手里刚好有比较好用的  shadowsocks 账号. 
-首先需要有 python 环境, 安装 pip.  ubuntu 默认有 python 环境. 所以直接执行 :
+
+我自己习惯使用 shadowsocks, 因为手里刚好有比较好用的  shadowsocks 账号.
+
+首先需要有 python 环境, 安装 pip.  ubuntu 默认有 python 环境. 所以直接执行 :      
 `sudo apt-get install python-pip`
-然后直接安装 shadowsocks
+
+然后直接安装 shadowsocks        
 `sudo pip install shadowsocks`
-安装后用 sslocal 启动客户端.
-我这里图方便, 创建了一个脚本:
+
+安装后用 sslocal 启动客户端. 我这里图方便, 创建了一个脚本:      
 ```shell
-nohup sslocal -s [你的服务端地址] -p [服务端口] -k [密码] 2>&1 1>/dev/null &
+nohup sslocal -s [你的服务端地址] -p [服务端口] -k [密码] &
 ```
+
 然后运行脚本,  本机的  1080 端口就可以用于科学上网了. 
 
-Ubuntu 中提供了全局代理的功能.  按 `Win` 键打开 Launcher, 输入 Network 打开网络配置工具,
-然后选择  Network  Proxy , 在右侧将 Method 改为 Manual , 在 Socks Host 一项中填写 "127.0.0.1" 和 1080 端口 , 然后  Apply System Wide , 就可以全局跨墙了. 
-全局的用起来其实不是很方便.  上网什么的, 也不是全都翻就一定好.
-安装 谷歌浏览器, 可以在 Ubuntu 软件中心安装 Chromium , 也可以去下载 Chrome. 
-安装后启动浏览器, 打开 App stroe, 搜索 SwitchyOmega 插件, 下载次数最多的那个就是. 安装.  记得此时需要打开之前配置好的全局代理.
+Ubuntu 中提供了全局代理的功能.  按 `Win` 键打开 Launcher, 输入 Network 打开网络配置工具,              
+然后选择  Network  Proxy , 在右侧将 Method 改为 Manual , 在 Socks Host 一项中填写 "127.0.0.1" 和 1080 端口 , 然后  Apply System Wide , 就可以全局跨墙了.
+ 
+全局的用起来其实不是很方便.  上网什么的, 也不是全都翻就一定好.    
+安装 谷歌浏览器, 可以在 Ubuntu 软件中心安装 Chromium , 也可以去下载 Chrome.   
+
+安装后启动浏览器, 打开 App stroe, 搜索 SwitchyOmega 插件, 下载次数最多的那个就是. 安装.  记得此时需要打开之前配置好的全局代理.      
 安好插件后, 需要配置 proxy , 直接在 defualt 配置上修改就好, 协议为 SOCKS5, Server为 127.0.0.1, 端口为 1080 .
-然后, 重点是配置 Auto Switch, 
-rule list rules 那行设置为 proxy , 下面一行的  default 设置为 direct 表示不使用代理.
-rule list Configure 选择 auto proxy , 然后在 rule list url 栏中复制粘贴 下面的地址
+
+然后, 重点是配置 Auto Switch,    
+rule list rules 那行设置为 proxy , 下面一行的  default 设置为 direct 表示不使用代理.      
+rule list Configure 选择 auto proxy , 然后在 rule list url 栏中复制粘贴 下面的地址         
 `http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt`
-然后点 download profile, 下载成功后能看到切换规则.  (注意此时也需要保持全局的 proxy ). 
+
+然后点 download profile, 下载成功后能看到切换规则.  (注意此时也需要保持全局的 proxy ).       
 这样就搞定了, 关闭系统的 全局 proxy, 然后将打开插件的 auto proxy , 就可以有选择的走代理了. 
 
 
 配置笔记环境:
-喜欢快捷方便好用的 [stackedit](https://stackedit.io/) 在线 markdown 编辑器 + Google Driver 云同步.
-其实这个方案也没有用太久, 以前使用 windows 的时候用的是 sublime + 百度的自动同步.
+喜欢快捷方便好用的 [stackedit](https://stackedit.io/) 在线 markdown 编辑器 + Google Driver 云同步.        
+
 步入正题.  stackedit 虽然是网页版的编辑器, 但其实它是可以支持离线使用的. 编辑的文件也是实时保存在本地的.  可以去 chrome 的 app store 下载 stackedit. 其实还是个网页链接而已. 我都是直接收藏即可.
 然后, 需要有一个谷歌账号. 并且开通  Google Drive 服务, 进入页面后创建一个给stackedit 同步用的文件夹. 然后, 在stackedit 页面点击左上角的 LOGO,  点 sychronize , 选择 save on Google Drive.  之后会有一个三方授权的过程, 正常授权后, 选择保存的文件名, 有折叠起来的选项, 还有一个自动同步的功能, 打开它, 然后将保存的文件夹指定为在 Google Drive 上给 stackedit 创建的文件夹. 文件名的位置什么都不填.  实际保存的文件名和 stackedit 右上角的文件名是一致的. 
 全部设定成功后, 就可以在这个环境下写东西了, 每隔几分钟就会同步一次. 其实完全不用担心这个时间间隔, 因为 stackedit 本身就是实时保存本地的, 正在写东西的时候直接关掉浏览器也不要紧, 不会丢东西的. 
 另外需要注意,  Google Drive 需要跨墙使用. 
-
 
 
 ### ssh 远程访问服务器
@@ -225,8 +246,29 @@ goMySrv
 # OK, 链接上了! 不能更方便了!
 ```
 
+---------------------------------------------------
 
-## MacBook Pro 12-1 上 安装 Ubuntu 15.10
+### Google Chrome 下创建APP启动的快捷方式
+
+有些东西希望能直接打开而不要先开 Chrome 再去找到要开的东西, 太麻烦.
+
+对于 APP, 在 Chrome 的 APP 列表中, 右键点击图标可以直接选择 `create shortcuts` 创建
+
+对于非 APP 类的, 比如网页微信, 比如 Bing词典, 可以在浏览器中打开该页面. 然后在 Chrome 的菜单栏中 => File => Create application Shortcuts 创建.
+
+创建时有两个选项, Desktop 是在桌面创建启动图标, Application Menu 就是按 <kbd>Win<kbd> 键后出现的应用程序菜单
+
+通常我都是用后者, 因为直接 <kbd>Win<kbd> + 名称前缀就能迅速在任何情况下打开 APP, 非常方便.    
+如果由于 APP 名称中带中文可以用如下方法修改: 
+```
+# 路径
+~/.local/share/applications
+# 打开 chromexxxxx.desktop 文件, 查看 Name 属性可以判断是什么APP, 直接将 Name 修改成自己希望的名字即可. 尽量保证前缀唯一, 可以用最快的方式启动.
+```
+
+------------------------------------------------------
+
+## MacBook Pro 12-1 上 安装 Ubuntu 15.10 / 16.04 LTS
 
 网上有很多安装教程, 都是如何安装双系统, 但是我想要安装一个纯净的 Ubuntu.
 
@@ -243,28 +285,30 @@ https://help.ubuntu.com/community/MacBookPro12-1/Wily
 	这里简述一下: 推荐使用 gparted 创建ESP分区, 在 Live 系统下, 通过 Launcher 启动 gparted 图形化工具, 在目标磁盘上创建首个新分区, 类型 primary, 格式 FAT32, 大小200MB.
 	创建后应用, 使修改生效. 然后选定刚才的分区, 在 partition 菜单下有一个 flag manage 选项, 打开后选定 ESP(EFI System Partition) 项, 然后应用修改. 这样就完成了 ESP 分区的创建.
 4. 然后直接启动 Ubuntu 的安装, 在分区的地方选择进行手动分区, 不要对ESP分区进行改动或设定 mount point. 直接在 free space 上继续进行分区操作.
-5. ESP 后的第二个分区是 boot 分区, 挂在 /boot 路径, 类型 primary, 格式 ext2, 大小 200MB
-6. 然后剩下的按照自己的需要去分配即可, 比我我是 120GB 的 / 分区(ext4), 剩下的都是 swap 分区. 
-7. 完成分区后开始安装系统, 注意系统完成后 **先不要重启**.
-8. 系统安装过程中, 我们可以安装 efibootmgr 工具, `sudo apt-get install efibootmgr` 
-9. 执行 `efibootmgr` 显示当前系统的 efiboot 信息, Mac 系统默认是 Boot0080, BootOrder 是 0080 即默认直接启动 Mac 系统. 
-10. Ubuntu 安装完成后重新再执行 `efibootmgr` 命令, 会出现一个新的 Boot 启动项, 可能会带有 Linux 的标签, BootOrder 自动变成 xxxx,0080, 其中 xxxx 对应 Linux 启动项的 hex 编号.
-11. 如果 BootOrder 没有自动改变, 需要使用 `efibootmgr -o xxxx,0080` 来手动设定新的 BootOrder, xxxx是 Linux 启动项的 hex 编号, 比如我的是 0001.
-12. 重启, Mac 将引导进入 Ubuntu 15.10 
+5. 按照自己的需要去分配即可, 比如我是 120GB 的 / 分区(ext4), 剩下的都是 swap 分区. 
+6. 完成分区后开始安装系统, 注意系统完成后 **先不要点击重启按钮**.
+7. 系统安装过程中, 我们可以安装 efibootmgr 工具, `sudo apt-get install efibootmgr`. 如果是 live 中, 直接开个终端, 如果不是, 可以使用 <kbd>ALT</kbd> + <kbd>CRTL</kbd> + <kbd>F1-6</kbd> 进入非图形终端. 默认的用户名是 ubuntu, 密码为空. 
+8. 执行 `efibootmgr` 显示当前系统的 efiboot 信息, Mac 系统默认是 Boot0080, BootOrder 是 0080 即默认直接启动 Mac 系统. 
+9. Ubuntu 安装过程完毕后重新再执行 `efibootmgr` 命令, 会出现一个新的 Boot 启动项, 可能会带有 Linux 的标签, BootOrder 自动变成 xxxx,0080, 其中 xxxx 对应 Linux 启动项的 hex 编号.
+10. 如果 BootOrder 没有自动改变, 需要使用 `efibootmgr -o xxxx,0080` 来手动设定新的 BootOrder, xxxx是 Linux 启动项的 hex 编号, 比如我的是 0001.
+11. 重启, Mac 将引导进入 Ubuntu 15.10 / 16.04
 
 注: 15.10 版本之前的 Ubuntu 安装在 Mac 上后, 有可能出现 WIFI 无法正常驱动, 屏幕亮度不能调节, 触摸板没有滚动功能等问题. 
 
 #### 在 Ubunutu 下制作 Ubuntu 系统安装 USB disk 的方式
 
-系统中有  StartUp Disk creator, 但是总觉得不太好用, 
+<del>系统中有  StartUp Disk creator, 但是总觉得不太好用      
 
-可以使用 Disk 工具, 直接选中 USB Disk, 在右侧的设置按钮中, 找到 Restore Disk Image 项打开, 选定 ISO 文件, 直接 Restore 即可. 
+可以使用 Disk 工具, 直接选中 USB Disk, 在右侧的设置按钮中, 找到 Restore Disk Image 项打开, 选定 ISO 文件, 直接 Restore 即可.<del> 
 
-注意这种方式制作的 USB Disk 不能再写入其他文件. 
+注意上述这种方式制作的 USB Disk 不能再写入其他文件.
+ 
+`StartUp Disk creator` 其实挺好用的. 之前我自己的 U 盘分区被搞坏了, 在 creator 中一直无法直接写入. 
+我也忘记分区表是如何被一步一步玩坏的了. 这种情况下对其格式化可能是没有用的. 可以尝试用 `dd if=/dev/zero of=/dev/sdxx bs=4096 count=10240` 把靠前的位置重新擦一遍, 然后就可以正常格式化并使用了.
 
-## problems about keyboard layout
+## 解决苹果键盘的布局带来的问题
 
-ubuntu 15.10 has some config file about mac keyboard options, the path is /sys/module/hid_apple/parameters.    
+ubuntu 15.10/16.04 has some config file about mac keyboard options, the path is `/sys/module/hid_apple/parameters`.    
 There are three file in that fold :  fnmode  iso_layout  swap_opt_cmd
 
 ### fnmode : 
@@ -275,16 +319,24 @@ There are three file in that fold :  fnmode  iso_layout  swap_opt_cmd
 
 2 = f-keys first : Function keys are used as first key. Pressing F8 key will behave like a F8. Pressing <fn+F8> will act as special key (play/pause).
 
+将该值设置为 2 将会使得 Fx 优先触发, 而对应的特殊功能则需要使用 fn + Fx 键触发.
+
 ### iso_layout :
 
-1 is default. the `|~ key will not work correctly, it will produce <|> characters.     
-we want set it to 0, than it will work as our expect.   
+1 is default. the `|~ key will not work correctly, it will produce <|> characters.
+
+将该值设置为 0 可以使键盘映射恢复正常   
 
 ### swap_opt_cmd :
 
 The Mac has command key, and the alt(option) key and command key is different from general position.
 
-this value is 0 (default).   we want to set it to 1 to swap command key and alt key.
+this value is 0 (default).  
+
+将该值设置为 1, 可以交换键盘上的 alt 键和 command 键.
+
+以上设定通过 `echo X > /sys/module/hid_apple/parameters` 方式 root 权限修改.    
+如果需要永久修改该值. 建议将上述命令写在 `/etc/rc.local` 中.  这样,即使在尚未登录的时候, 也可以使修改生效.
 
 
 > Written with [StackEdit](https://stackedit.io/).

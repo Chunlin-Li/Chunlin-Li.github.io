@@ -119,3 +119,39 @@ linux 下 `kill PID` 是 SIGTERM 信号,  ctrl + C 是 SIGINT 信号
 ### 为什么 Node 在可用内存比较小的环境下, 回陷入性能和内存消耗的恶性循环? 
 
 ### 为什么 http client 在注册了 response 事件的情况下, 必须也同时注册 data 和 end 事件? 
+
+
+
+
+### 关于 Object.create() 方法
+
+> 19.1.2.2  Object.create ( O [ , Properties ] )  
+> The create function creates a new object with a specified prototype. When the create function is called, the following steps are taken:    
+> 1. If Type(O) is neither Object nor Null, throw a TypeError exception.  
+> 2. Let obj be ObjectCreate(O).  
+> 3. If the argument Properties is present and not undefined, then  
+>    a. Return ObjectDefineProperties(obj, Properties).  
+> 4. Return obj.  
+ 
+里面提到了 ObjectCreate(O) 函数. 继续找... 
+ 
+```
+9.1.13 ObjectCreate(proto, internalSlotsList)
+The abstract operation ObjectCreate with argument proto (an object or null) is used to specify the runtime
+creation of new ordinary objects. The optional argument internalSlotsList is a List of the names of additional
+internal slots that must be defined as part of the object. If the list is not provided, an empty List is used. This
+abstract operation performs the following steps:
+1. If internalSlotsList was not provided, let internalSlotsList be an empty List.
+2. Let obj be a newly created object with an internal slot for each name in internalSlotsList.
+3. Set obj’s essential internal methods to the default ordinary object definitions specified in 9.1.
+4. Set the [[Prototype]] internal slot of obj to proto.
+5. Set the [[Extensible]] internal slot of obj to true.
+6. Return obj.
+```
+其中又提到一个 internal slot 的概念.
+
+
+
+
+
+
