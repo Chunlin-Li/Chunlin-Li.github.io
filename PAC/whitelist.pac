@@ -1,4 +1,8 @@
 var domains = new Set([
+  'douban.com',
+  'jianshu.io',
+  'cnblogs.com',
+  
   '103.249.254.119',
   '103.249.254.199',
   '12306.cn',
