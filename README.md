@@ -69,3 +69,12 @@
 ### 计算机科学
 
 [编译器工程 读书笔记 .....](blogs/computer_science/EngineeringACompiler2e-notes.md)
+
+
+-----------------------------
+
+### 音乐
+
+[基础乐理知识](music/music-theory/basic-theory.md)
+
+[音乐术语和名词](music/music-theory/terminology.md)
