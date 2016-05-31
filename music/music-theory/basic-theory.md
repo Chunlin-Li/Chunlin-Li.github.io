@@ -14,13 +14,15 @@
 亥姆霍兹音高记法: C4-B4 是小字一组(one-line), 往高音方向依次是小字二组(two-line), 小字三组(three-line)... 往低音方向依次是小字组(small), 大字组(great), 大字一组(contra) ...
 
 音的强度记号: p(piano)代表弱, f(forte)代表强. 重复越多代表程度越深, 如 ppp非常弱, ff较强等. 特殊: mp(mezzo-piano) 中弱 mf为中强. 还有一些其他强度记号.
- ![力度的大小](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Dynamic%27s_Note_Velocity.svg/640px-Dynamic%27s_Note_Velocity.svg.png)
+    
+![力度的大小](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Dynamic%27s_Note_Velocity.svg/640px-Dynamic%27s_Note_Velocity.svg.png)
  
  
 
 大调音阶: Do Re Mi Fa Sol La Ti Do 之间的音依次相差的音为: 全 全 半 全 全 全 半.    
  比如 C 大调音阶就是 Do 为C, 并按照"全 全 半 全 全 全 半"的规则依次向后递推得到的序列.
- E♭ 大调就是 Do 为 E♭(D♯), 并按照"全 全 半 全 全 全 半"的规则依次向后递推得到的序列.    
+ E♭ 大调就是 Do 为 E♭(D♯), 并按照"全 全 半 全 全 全 半"的规则依次向后递推得到的序列.   
+
 ![大调音阶示意图](https://upload.wikimedia.org/wikipedia/en/thumb/1/18/MajorScales.svg/836px-MajorScales.svg.png)
  
 
