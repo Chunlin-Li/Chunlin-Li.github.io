@@ -19,7 +19,7 @@ System Settings  --> Details --> Overview --> Install Updates
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get dist-upgrade
-sudo apt-get install vim axel python-pip git polipo fcitx-rime ttf-wqy-microhei unity-tweak-tool guake
+sudo apt-get install vim axel python-pip git polipo fcitx-rime ttf-wqy-microhei unity-tweak-tool guake xsel
 sudo pip install shadowsocks
 ```
 
@@ -36,6 +36,14 @@ sudo apt-get install nvidia-331 nvidia-settings nvidia-prime
 打开 System Settings => Software&Updates => Aditional Drivers 中可以自动扫描到显卡的驱动, 选择进行安装即可. 
 
 重启后安装完成, 在 Launcher 中可以找到 nvidia 配置程序, 左边有一项 PRIME xxxx  进去直接切到 Intel 集显. 重启后一切OK. (我自己的目的是要关掉集显)
+
+
+## 创建新的显示器分辨率模式并应用
+
+有时在 system settings 的 display 中并没有我们想要的分辨率. 此时需要在 显卡, 接口, 线缆, 显示器所共同支持的最大分辨率下, 手动添加新的显示模式.
+
+添加方式如下: [gist 链接](https://gist.github.com/Chunlin-Li/ec3eba625f1115d7d8ac)
+
 
 ## 修改硬盘转速
 
@@ -60,7 +68,7 @@ sudo apt-get install nvidia-331 nvidia-settings nvidia-prime
 
 > 对于开发者, 不推荐使用搜狗拼音输入法, 可以尝试一下 Rime 输入法, 
 > 开始的时候我也用搜狗, 后来被坑的不行, 换用 Rime 了, 然后感慨为什么当初不直接用 Rime ....
-> 以下搜狗拼音输入法的安装方法仍保留,  [fcitx Rime 输入法的安装及简单的配置请走这边.](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/ubuntu-fcitx-rime.md)
+> 以下搜狗拼音输入法的安装方法仍保留,  [fcitx Rime 输入法的安装及简单的配置请走这边.](https://github.com/Chunlin-Li/Chunlin-Li.github.io/blob/master/blogs/linux/ubuntu-fcitx-rime.md)
 
 * 直接搜狗官网下载最新的 deb 包. 
 * 双击后会自动调出 ubuntu software center 进行安装. 如果提示 fcitx 版本低, 可以先执行 
@@ -142,7 +150,7 @@ k --> Down
 l --> Right
 u --> Home
 o --> End
-[ --> Prior (PageUp)
+p --> Prior (PageUp)
 ; --> Next (PageDown)
 d --> BackSpace
 f --> Delete

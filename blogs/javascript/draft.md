@@ -91,7 +91,7 @@ Promise 对于Promise 对象, 如果没有给定 reject 的函数, 则一旦执�
 
 ----------------------
 
-### 堆内存限制
+堆内存限制
 
 Node js 中 Buffer 本身不占用堆内存, 但是每个Buffer对象都要消耗 100多B的堆内存, 因此, 单个进程中总 Buffer 的个数有个上限, 大概 1千万就块到头了.   其他的对象也是用样道理, 只是其他数据不会有太多的元数据.
 
@@ -113,12 +113,6 @@ linux 下 `kill PID` 是 SIGTERM 信号,  ctrl + C 是 SIGINT 信号
  `kill -9 PID` 是 SIGKILL 信号.
 
 这些信号都需要用 `process([SIGNAL], function(){})` 的方式捕捉. 注意 SIGKILL 是无法捕获的. 
-
-
-
-### 为什么 Node 在可用内存比较小的环境下, 回陷入性能和内存消耗的恶性循环? 
-
-### 为什么 http client 在注册了 response 事件的情况下, 必须也同时注册 data 和 end 事件? 
 
 
 
