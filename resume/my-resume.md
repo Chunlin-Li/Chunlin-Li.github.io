@@ -22,21 +22,21 @@
 ### 主技能
 
  * javascript/ node.js (2015-2016)
-	 * 掌握 javascript 语言, 熟练使用 Node JS 内建 API 
-	 * 了解 Chrome V8 引擎, 有一定的性能调优经验
-	 * 熟悉大部分 ES6 特性. 了解 OO 编程, 了解函数式编程 
-	 * 较熟练的服务端 Node 开发经验, 有一定的浏览器端的 js 原生/jQuery开发经验.
+	 * 掌握 javascript 语言, 精通基于 Node.js 的后端开发
+	 * 熟悉 Node.js 的源码实现
+	 * 熟悉 Chrome V8 引擎, 有一定的性能调优经验
+	 * 掌握大部分 ES6 特性. 熟悉 js 的面向对象编程, 熟练使用 js 的函数式编程 
 	 * 有自己做的开源 package: big-map. [git](https://github.com/Chunlin-Li/BigMap) / [npm](https://www.npmjs.com/package/big-map)
-	 * 留下了一些 Node.js 相关的工作和学习笔记, 代码片段, 文档翻译等. [github链接](https://chunlin-li.github.io)
+	 * 留下了一些 Node.js 相关的工作和学习笔记, [代码片段](https://github.com/Chunlin-Li/my-js-snippet), 文档翻译等. 详见[github链接](https://chunlin-li.github.io)
 
  * Linux (2011-2016)
-	 * 全 Linux 环境(PC/NoteBook/VPS/Server), Debian / Ubuntu 系
-	 * 熟悉常见服务的部署, 以及其他系统管理工作 
+	 * 全 Linux 环境(PC/NoteBook/VPS/Server), 发行版中更熟悉 Debian / Ubuntu 
+	 * 熟悉常见服务的部署, 系统调优, 以及其他系统管理工作 
 	 * 用过一小段时间的 UNIX (FressBSD), 但未深入研究
-	 * 熟悉 Bash Shell 脚本, 会使用 sed, awk, xargs 等主要工具
+	 * 可熟练编写 Bash Shell 脚本, 会使用 sed, awk, xargs, parallel 等主要工具进行日志分析和系统管理自动化工作
 
  * ElasticSearch (2016)
-     * 使用 ElasticSearch 进行日志的管理, 在此基础上进行多维度的数据统计
+     * 使用 ElasticSearch 进行业务日志的管理, 在此基础上进行多维度的数据统计
      * 可以独立完成 ES 的部署, 调优, Mapping 模板编写, Search DSL编写等工作 
 
  * MongoDB (2014-2016)
@@ -71,7 +71,7 @@
 算法: 做过一点 OJ 的题, 但没有系统学习过竞技理论和技巧.
 
 * **正则表达式**   
-基本能熟练使用, 熟悉 Perl 风格, 对 Linux Shell basic 风格和 extend 风格也比较熟悉 
+基本能熟练使用, 最熟悉 Perl 风格, 对 Linux Shell basic 风格和 extend 风格也比较熟悉 
 
 * **HTML / CSS**    
 达到较为简单的工程应用水平, 可以做一些不是太复杂的交互和布局. 做过浏览器兼容的工作(safari 和 chrome ), 但不多.
@@ -81,20 +81,16 @@
 用 python 写过简单的 nginx 日志分析工具, 写过业务日志的分析脚本, 以及一些用于临时任务的 python 脚本, 主要接触 python 和 redis 的 driver 进行数据库维护工作.
 
 * **Nginx**   
-做过基本的安装配置和nginx.conf 的编写. 过滤, 防盗链, 错误页面的配置, 平时使用中更多是对 nginx 访问日志的分析和统计,     
+做过基本的安装配置和nginx.conf 的编写. 过滤, 防盗链, 错误页面的配置, socket的调优, 平时使用中更多是对 nginx 访问日志的分析和统计,     
 
 * **C/C++**   
 大学必修课, 而且看多比较多的相关书籍, 比如 *C陷阱与缺陷*, *C专家编程*, *编程珠玑* 等, 做 OJ 的算法题也是用的 C. 目前忘的差不多了, 但一直希望能有个机会重拾C并深入学习一下.
-
-* **搜索引擎 ElasticSearch**
-工作中接触学习并使用 ES 进行日志的统计分析工作.
 
 ----------------------------------------
 
 ## 自述     
 
 极度渴望身处一个这样的环境中工作: 大家都热爱技术, 喜欢探寻本质, 愿意给自己找"麻烦", 不装逼不摆架子, 谦虚内敛不排资论辈. 除了工作中接触的技术外, 还有自己业余时间钻研的其他技术.         
-
 
 自认为自己最大的优势:    
 
@@ -117,6 +113,7 @@
 
  * 广告家业务线, 实时竞价后端 Node 开发与维护. Exchange 服务的部分重构和性能优化, Debug, NSQ日志导出等. 
  * 独立进行日志和数据分析系统开发维护. NSQ -> Nodejs -> fs archive -> ElasticSearch -> Mongodb.
+ * 通过不断的 debug 和优化, 使得竞价服务和配套的日志分析处理服务可以在日请求十亿量级稳定运行.
 
 
 * 北京乐度科技文化有限公司 | 打杂程序员 | (2014.07 - 2015.10 )     

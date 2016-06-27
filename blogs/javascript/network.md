@@ -23,6 +23,40 @@ server 端 keepAlive 的控制:
 
 * Chrome keep alive 时间是 5 分钟. 只有在 server 的 setTimeout 大于 client 的 keep alive 时间, 才会由 client 主动关闭连接.
 
-此外如果要 client 主动关闭连接, 也可以在 server 端直接关闭 keep alive.
+-----------------------
  
 server 端 timeout 的控制: 如果请求进来后, 必须在限定时间内返回或断开链接, 而不能受内部逻辑的复杂性影响使得请求 hang 住, 可以设置 通过 server.setTimeout(xx) 来控制.
+
+server.setTimeout 会对 client 和 server 之间简历的链接进行 timeout  计时.  如果连接在 timeout 时间内没有有效的数据包发送或接收, socket 会被 server 销毁.
+
+对于 server 来说, 直接设置 setTimeout 是一种比较粗暴的方式.  实际业务中可以考虑在 req(IncomingMessage) 上面设置一个 timeout, 如果超时则提前返回.
+
+
+
+res.finished 变量可以用于判断该 HTTP 请求是否已经 end() 过了.
+req.connection._httpMessage.finished 用法同上.
+
+
+----------------------
+
+udp 可以和 tcp 使用(复用)同一个端口. 双方不会干扰.
+ 
+--------------------
+ 
+使用
+
+```
+var uv = process.binding('uv');
+
+....
+
+res.socket.write(new Buffer([uv.UV_EOF])); 
+
+```
+
+可以向 socket 的另一端直接写 tcp 的一些标志符.  livuv 支持的 TCP 标志可以参考[文档](http://docs.libuv.org/en/v1.x/errors.html)
+
+
+---------------------------
+
+
