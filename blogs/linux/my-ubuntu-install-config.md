@@ -21,7 +21,13 @@ sudo apt-get upgrade
 sudo apt-get dist-upgrade
 sudo apt-get install vim axel python-pip git polipo fcitx-rime ttf-wqy-microhei unity-tweak-tool guake xsel
 sudo pip install shadowsocks
+ # 其他权利受限的第三方 lib
+sudo apt-get install ubuntu-restricted-extras
+sudo apt-get install libdvd-pkg
+sudo dpkg-reconfigure libdvd-pkg
+
 ```
+[参考 Multimedia support in Ubuntu 16.04: how to complete it](https://sites.google.com/site/easylinuxtipsproject/multimedia)
 
 ## 完成安装后, 需要安装显卡驱动
 
@@ -204,6 +210,26 @@ rule list Configure 选择 auto proxy , 然后在 rule list url 栏中复制粘�
 
 然后点 download profile, 下载成功后能看到切换规则.  (注意此时也需要保持全局的 proxy ).       
 这样就搞定了, 关闭系统的 全局 proxy, 然后将打开插件的 auto proxy , 就可以有选择的走代理了. 
+
+**使用 polipo 将 shadowsocks 转为 http 代理**
+
+修改 `/etc/polipo/config` 文件如下.
+
+```
+# This file only needs to list configuration variables that deviate
+# from the default values.  See /usr/share/doc/polipo/examples/config.sample
+# and "polipo -v" for variables you can tweak and further information.
+
+logSyslog = true
+logFile = /var/log/polipo/polipo.log
+
+proxyAddress = "127.0.0.1"
+proxyPort = 12345
+socksParentProxy = 127.0.0.1:12345
+socksProxyType = socks5
+
+```
+
 
 
 配置笔记环境:

@@ -1,4 +1,13 @@
 var domains = new Set([
+'e701.net',
+'e703.net',
+'doushuo.com',
+'gtimg.com',
+'126.net',
+'bing.net',
+'live.com',
+'127.net',
+'alibaba.com',
   'douban.com',
   'jianshu.io',
   'cnblogs.com',
