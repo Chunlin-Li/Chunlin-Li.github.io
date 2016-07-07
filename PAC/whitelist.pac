@@ -1,8 +1,6 @@
 var domains = new Set([
-'e701.net',
-'e703.net',
+'114.64.222.53', /* music 163 */
 'doushuo.com',
-'gtimg.com',
 '126.net',
 'bing.net',
 'live.com',

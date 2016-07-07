@@ -114,3 +114,19 @@ index 可以不连续, 可以是字符串, array 不需要声明 不需要初始
   }
 }
 ```
+
+
+### awk 中执行操作系统的命令行
+
+使用 system() 执行操作系统的命令. 返回值是所执行命令的返回码 ($?)
+
+```
+BEGIN {
+    system("touch new_test_file.txt")
+}
+```
+
+使用 `--sandbox` 参数执行 awk 时, 该功能将被 disable   
+
+
+
