@@ -27,8 +27,9 @@ When preparing the test case, make sure it begins its work immediately upon load
 
 Then, process the v8.log file with the [tick-processor](http://code.google.com/p/v8-wiki/wiki/V8Profiler#Process_the_Generated_Output) script that ships with V8 (or the new practical [web version](http://v8.googlecode.com/svn/trunk/tools/tick-processor.html)):
 
-> 准备测试用例的时候需要注意, 要让程序在加载后立即开始执行, 计算结束后直接关闭 Chrome 即可, 这样可以使结果尽量准确. 另外需要注意, web work 目前还不能使用该方法得到正确的分析结果.    
+> 准备测试用例的时候需要注意, 要让程序在加载后立即开始执行, 计算结束后直接关闭 Chrome 即可, 这样可以使结果尽量准确. 另外需要注意, web work 目前还不能使用该方法得到正确的分析结果.
 > 然后需要使用 v8 中自带的 tick-processor 脚本来处理一下 `v8.log` 文件. 或者可以使用 [web 工具](http://v8.googlecode.com/svn/trunk/tools/tick-processor.html)
+> _2016-07-13 更新:_ 新版本(测试了4.4.3)的 node 可以用更简单的方式: `node --prof-process isoloate-xxxxx-v8.log` 即可生成分析结果.
 
 ```
 $ v8/tools/linux-tick-processor v8.log

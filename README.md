@@ -70,6 +70,8 @@
 
 [编译器工程 读书笔记 .....](blogs/computer_science/EngineeringACompiler2e-notes.md)
 
+[MSDN Cloud Design Pattern](blogs/computer_science/Cloud-Design-Pattern.md)
+
 
 -----------------------------
 
