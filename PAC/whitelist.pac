@@ -1,4 +1,5 @@
 var domains = new Set([
+'qbox.me',
 'doubanio.com',
 '114.64.222.53', /* music 163 */
 'doushuo.com',
