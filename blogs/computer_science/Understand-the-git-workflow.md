@@ -2,7 +2,7 @@
 ===================
 
 
-> 原文连接: (https://sandofsky.com/blog/git-workflow.html)[https://sandofsky.com/blog/git-workflow.html]
+> 原文连接: [https://sandofsky.com/blog/git-workflow.html](https://sandofsky.com/blog/git-workflow.html)
 
 
 如果你无法理解 Git 的设计背后的动机, 你就惨了.  
@@ -15,13 +15,13 @@ Git 提供了丰富的选项, 你可以通过它们来让 Git 按照你的想法
 2. 编辑该分支
 3. 完成编辑后将该分支 Merge 回 Master 分支.
 
-大多数时候, 这样的操作其结果都符合你的预期, 因为 Master 上的内容从你创建分支后也在变化着. 然而, 当你将一个功能分支 Merge 回 Master 的时候, Master 在这段时间中并没有任何变化. 此时, Git 将直接将 Master 指向最后一次功能分支的 Commit 上, 而不是在 Master 上创建一个新的 Merge Commit. 这就是 (**fast forwards**)[https://sandofsky.com/images/fast_forward.pdf].
+大多数时候, 这样的操作其结果都符合你的预期, 因为 Master 上的内容从你创建分支后也在变化着. 然而, 当你将一个功能分支 Merge 回 Master 的时候, Master 在这段时间中并没有任何变化. 此时, Git 将直接将 Master 指向最后一次功能分支的 Commit 上, 而不是在 Master 上创建一个新的 Merge Commit. 这就是 [**fast forwards**](https://sandofsky.com/images/fast_forward.pdf).
 
 不幸的是, 功能分支包含了一些常规(checkpoint) commits. 频繁的 commit 可以随时备份你的工作, 但却产生了一些代码处于不稳定状态下的 commit, 这些提交在 merge 后会和 master 分支上的稳定提交混在一起无法区分, 你有可能会回滚到一个危险的 commit 上.
 
 所以, 你给自己加了一个规矩: 当 merge 一个功能分支的时候, 使用 `-no-ff` 来强制创建一个新的 commit. 这样就解决问题了, 你可以继续前进.
 
-然而一天你发现在线上产品中发现一个严重 Bug, 因此需要查出它是什么时候被引入进来的, 你使用 `bisect` 来用二分法定位问题, 但最终却定位在了一个常规 commit 上, 因此不得不放弃并开始手动查找. 
+然而一天你在线上产品中发现一个严重 Bug, 因此需要查出它是什么时候被引入进来的, 你使用 `bisect` 来用二分法定位问题, 但最终却定位在了一个常规 commit 上, 因此不得不放弃并开始手动查找. 
 
 后来你将 Bug 定位到了一个特定文件上, 使用 `blame` 来看它在 commit 前的最后 48 小时是如何被修改的. 结果 `blame` 报告说该文件近一周都没被碰过, 你知道这不可能. 事实上 `blame` 是检查从首次提交以来所发生的改变, 而不是从它被 merge 以来. 你的首次常规 commit 在一周前修改过这个文件, 但是这个修改是今天才 merge 进来的.
 
@@ -33,7 +33,7 @@ Git 提供了丰富的选项, 你可以通过它们来让 Git 按照你的想法
 
 其一, 帮助代码编写工作. 你需要与团队成员同步各自的修改, 并周期性的备份你们的工作成果. 用 Email 一次次发送 zip 文件? 开玩笑吧!
 
-其二, (配置管理)[https://en.wikipedia.org/wiki/Software_configuration_management]. 这包括管理多分支的开发, 比如在开发下一主版本的同时, 需要偶尔修复目前在用版本的 bug. 配置管理同时也被用于精确的显示每次 commit 的确切时间, 以及非常有用的 bug 诊断工具.
+其二, [配置管理](https://en.wikipedia.org/wiki/Software_configuration_management). 这包括管理多分支的开发, 比如在开发下一主版本的同时, 需要偶尔修复目前在用版本的 bug. 配置管理同时也被用于精确的显示每次 commit 的确切时间, 以及非常有用的 bug 诊断工具.
 
 但一般来说, 这两个原因存在冲突. 
 
@@ -41,7 +41,7 @@ Git 提供了丰富的选项, 你可以通过它们来让 Git 按照你的想法
 
 理想情况下, 你的每一次 commit 都应该是简洁而可稳定运行的, 不应该在分支上出现大量由常规 commit 造成的无用干扰信息, 不应该有巨大, 甚至一万行的 commit. 一个清晰整洁的 Git 历史可以让回滚撤销, 以及在不同分支上进行 `cherry-pick` 变得简单易行, 也可以方便将来对代码提交历史进行查阅(inspect)和分析. 然而, 维护这样的 Git 历史意味着必须等修改的部分达到完美才能合并进来.
 
-那么, 你才用哪种方式呢? 经常 commit, 还是去维护一个整洁的 Git 历史? 
+那么, 你采用哪种方式呢? 经常 commit, 还是去维护一个整洁的 Git 历史? 
 
 如果你在一个两人的创业公司开发一个新产品的时候, 维护简洁 Git 历史非常容易. 你只需要随心所欲的提交代码到 master, 随心所欲的部署.
 
