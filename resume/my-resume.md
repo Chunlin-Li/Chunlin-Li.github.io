@@ -91,7 +91,7 @@
 
 _椭圆越大则说明掌握程度越好, 平时使用的越多_
 
-![](https://raw.githubusercontent.com/Chunlin-Li/Chunlin-Li.github.io/master/images/00.svg)
+![](https://raw.githubusercontent.com/Chunlin-Li/Chunlin-Li.github.io/master/images/00.png)
 
 ----------------------------------------
 
