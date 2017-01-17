@@ -373,4 +373,40 @@ this value is 0 (default).
 如果需要永久修改该值. 建议将上述命令写在 `/etc/rc.local` 中.  这样,即使在尚未登录的时候, 也可以使修改生效.
 
 
+
+## 对于 ubuntu 16.04 以后的版本, /etc/rc.local 弃用, 需要使用 systemd 来实现自启动的任务.
+
+1. 在 /etc/systemd/system 路径下创建文件 rc-local.service
+文件中输入以下信息: 
+
+```
+[Unit]
+Description=/etc/rc.local Compatibility
+
+[Service]
+Type=oneshot
+ExecStart=/etc/rc.local
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+然后执行 chmod a+x rc-local.service
+
+2. 创建 /etc/rc.local 文件, 并 chmod a+x 设置执行权限.
+文件中输入以下信息:
+```
+#!/bin/sh -
+
+your command.....
+do something.....
+```
+
+3. 执行 systemctl enable rc-local.service
+
+4. 重启, 确认 rc.local 脚本已按预期执行.
+
+
+
 > Written with [StackEdit](https://stackedit.io/).
