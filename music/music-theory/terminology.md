@@ -33,3 +33,4 @@ submediant : 下中音, 音阶第六音
 leading tone : 导音, 音阶第七音
 
 
+traid : 三和弦

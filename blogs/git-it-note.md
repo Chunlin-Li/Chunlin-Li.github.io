@@ -1,5 +1,7 @@
+Git 笔记
+=======
 
-_推荐下载 [node school](http://nodeschool.io/) 的 git-it 课程进行学习_
+## [node school](http://nodeschool.io/) 的 git-it 课程学习笔记
 
 -------------------------------
 
@@ -76,7 +78,7 @@ _推荐下载 [node school](http://nodeschool.io/) 的 git-it 课程进行学习
 ## JetBrains IDE Git Integration
 
 
-### 现有代码迁移到 Git 的步骤
+### SVN 现有代码迁移到 Git 的步骤
 
 > JetBrains 以 idea 为例；git server 以 gitlab 为例；项目是 java 项目.
 
@@ -152,8 +154,47 @@ git reset --hard  origin/[branch name]
 如果需要切换分支， 只需要改变最后一行中的  `branch name` 即可
 
 
+#### Amend 的使用
+
+可以修改当前分支的最近的一个已经提交到本地 repo 的 commit.    
+修改不会在 branch 上增加一个新的 commit, 而是直接换掉当前 head 的 commit. 
+
+在 JetBrains 中直接在 git commit 的对话框右边勾选 amend 的 checkbox, 然后再进行 commit 即可.
 
 
+#### 修改本地位于 branch 中间的某个 commit
+
+工作中经常遇到这种情况, 为了保持 commit history 的干净明了, 
+
+当前分支"脑袋"中的 commit 大致如下
+
+`C1:实现鼻子 --- C2:实现眼睛 --- C3:实现耳朵`
+
+然后发现, 眼睛有点歪, 得改一下, 但又不想重新创建一个 "修改一下眼睛" 的 commit 上去, 所以只能绕一圈了. 
+
+基于"脑袋"分支再创建一个新的分支"改脑袋";
+
+将"改脑袋"分支 hard reset 到"C2:实现眼睛"分支;
+ 
+在"改脑袋"分支上修改眼睛的部分, 然后提交"C4:修改眼睛". 完成后大致是这样:
+
+```
+C1:实现鼻子 --- C2:实现眼睛 --- C3:实现耳朵 (脑袋分支)
+                        \
+                         -- C4:修改眼睛 (改脑袋分支)
+```
+
+现在将分支切换到"脑袋", rebase onto "改脑袋"的分支: 
+ 
+```
+C1:实现鼻子 --- C2:实现眼睛 --- C4:修改眼睛 (改脑袋分支) --- C3:实现耳朵 (脑袋分支) 
+```
+
+然后对 "脑袋" 分支用交互方式 rebase 一下(onto C1 或者其他更早的共有 Commit), 将 C4:修改眼睛 分支 squash 掉就行了.
+
+以上是 1次commit + 2次rebase 的方式, 其实也可以用 1次amend + 1次rebase 的方式来实现. 不过 rebase 的时候记得要 skip 掉旧的 commit
+
+对了, 如果本地分支已经 push 过, 那么采用这种方式处理后, 需要 force push 到远端分支才行, 或者删掉重新 push 一下或换个分支名字都行.
 
 
 > Written with [StackEdit](https://stackedit.io/).

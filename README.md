@@ -74,6 +74,7 @@
 
 [Understand-the-git-workflow(译)](blogs/computer_science/Understand-the-git-workflow.md)
 
+[git](blogs/git-it-note.md)
 
 -----------------------------
 
