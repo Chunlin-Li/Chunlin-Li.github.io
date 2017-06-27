@@ -197,4 +197,17 @@ C1:实现鼻子 --- C2:实现眼睛 --- C4:修改眼睛 (改脑袋分支) --- C3
 对了, 如果本地分支已经 push 过, 那么采用这种方式处理后, 需要 force push 到远端分支才行, 或者删掉重新 push 一下或换个分支名字都行.
 
 
+**_update_**: 可以通过直接 rebase 的方式实现, 方式如下
+
+依然用之前的例子, 在"脑袋"分支上修改中间的"C2:实现眼睛"的提交, 直接 rebase(interactive) 一个之前的 Commit, 比如 C1 或更早的 master 分支.
+
+然后在对话框中, 找到 C2 提交, 将其前面的"pick"选项修改为"edit", 然后执行 rebase.
+
+接下来将会停在 C2 提交的位置, 你可以直接在代码里面做修改了, 修改完后, 手动使用 git -> add 将所有修改了的文件打上修改标记.
+ 
+然后在右下角的小对话框上点击 continue, 即可.
+
+[参考 Stack Overflow](https://stackoverflow.com/a/1186549/4968927)
+
+
 > Written with [StackEdit](https://stackedit.io/).
