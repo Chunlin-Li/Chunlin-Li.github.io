@@ -95,7 +95,16 @@ sudo apt-get install nvidia-331 nvidia-settings nvidia-prime
 * 在系统的 Launcher 中能找到 StartUp Applications, 
 * 可以在自己的 home 目录下, 添加一个 startup.sh 脚本, 并将其添加到上述程序的启动列表中, 其实和 windows 下开始菜单中的'启动'目录类似.
 
-> 有一次遇到过安完输入法后, 使用 `Ctrl + Space` 切换不了输入法的问题, 检查了所有可能的快捷键设置项, 没有找到解决方案. 如果有知道的同学可以告诉我.  
+> 有一次遇到过安完输入法后, 使用 `Ctrl + Space` 切换不了输入法的问题, 检查了所有可能的快捷键设置项, 没有找到解决方案. 如果有知道的同学可以告诉我.
+
+--------------
+
+**Update** : Gnome ubuntu 17.04 上发现输入法无法正常完成切换. 改用 ibus-rime 最终能够调出输入法使用了, 但是是非常繁琐的方式   
+使用 `ibus-setup` 命令对 ibus 进行设置, 使用 `ibus list-engine` 列出所有输入发引擎, 使用 `ibus engine rime` 启动 rime 输入法  
+这块还得多研究一下, 看要如果实现比较好   
+另外, 在 robo3t 中试了一下,  和 fcitx 一样无法调起中文输入法(sublime 没有尝试). 目前对于如何解决这个问题依然没有头绪
+ 
+--------------  
 
 ## 字体
 使用 atom 和 idea 的时候会发现, 已经将字符集设置为 UTF-8 , 但还是不能正常显示中文. 输入中文都显示成一个方块. 搜了一下发现, 问题出在中文字体上面.  

@@ -72,6 +72,19 @@ key <xxx> { [ level 1 , level 2, level3, ... ],
 
 我要在 pc(pc105) 中找到  `Key <CAPS>` 的设置项,  把 symbols 改为 ` [ Mode_switch ] `. 这样, 就把大小写切换键改为模式切换键. (模式切换键可以用于将一个按键的符号意义切换到 group 2)
 
+-------------------
+
+**Update** : 在有些情况下, Mode_switch 的没有实际效果, 这个时候可以使用 ISO_Level3_Shift 来替代 Mode_switch. 
+`key <CAPS> {  [ Mode_switch   ] };`  ===\>  `key <CAPS> {  [ ISO_Level3_Shift   ] };`
+从下面的段配置中可以看出, 二者的功能其实是一样的, 最终都是 modifier_map Mod5 :  
+```
+    key <LVL3> {  [ ISO_Level3_Shift  ] };
+    key <MDSW> {  [ Mode_switch     ] };
+    modifier_map Mod5   { <LVL3>, <MDSW> };
+```
+
+-----------------
+
 接下来找到 `Key <RCTL>` 这行, 把 symbols 改为 `[Caps_Lock]`. 这是因为右边的 Ctrl 键我几乎不会用到, 因此把它改成大小写切换键.
 
 然后找到找到`modifier_map Control{ Control_L, Control_R };` 这行. 意思是说, 通用的 Control 修饰键可以由 Control_L 和 Control_R 来触发. 我将其中的 `Control_R` 删掉, 因为我要让右边的 Ctrl 键实现大小写切换的功能来替代 Caps Lock 键.
