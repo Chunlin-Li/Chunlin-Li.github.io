@@ -210,4 +210,24 @@ C1:实现鼻子 --- C2:实现眼睛 --- C4:修改眼睛 (改脑袋分支) --- C3
 [参考 Stack Overflow](https://stackoverflow.com/a/1186549/4968927)
 
 
-> Written with [StackEdit](https://stackedit.io/).
+#### git 中的 submodules 的使用
+
+
+git 中的 submodules, 其本质是一种引用, 类似与超链接.
+
+有一个 git 项目叫做 component, 这是主项目的一个模块. 还有一个 git 项目是 main.
+
+如果我们在 main 中添加一个 submodules, 则相当与在 main 中添加了一个超链接, 这个超链接指向 components. 
+
+以后每次 clone 项目的时候, 默认是不会拉取超链接的内容的, 也就是 main 中是没有 components 的代码的. 需要额外的 option 或 git 命令. 
+
+main 中引用的其实是 components 中的某个 commit, 而不是 HEAD, 因此如果 components 发生了变更, 必须在 main 中手动更新这个引用, 才能指向 components 的新提交.
+
+在 main 的代码中也可以更新 components, 需要进到 components 对应的目录下进行 commit 和 push 操作. 如果在 components 目录
+外进行 `git commit -a -m "xxx"` 是会自动忽略掉 components 这个子模块的.
+
+在 main 项目下 push 更新 components 的代码后, main 下指向 components 的引用会自动更新, 因此这个时候 main 也还需要再提交一次. 
+
+[参考 git-submodules-vs-subtrees](https://andrey.nering.com.br/2016/git-submodules-vs-subtrees/)
+
+
